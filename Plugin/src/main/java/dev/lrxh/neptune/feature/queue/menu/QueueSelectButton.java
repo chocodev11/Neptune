@@ -29,6 +29,8 @@ public class QueueSelectButton extends Button {
     @Override
     public ItemStack getItemStack(Player player) {
         List<String> lore = new ArrayList<>();
+        ItemStack icon = kit.getIcon();
+        ItemMeta meta = icon.getItemMeta();
         if (meta != null) {
             meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE);
             meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
