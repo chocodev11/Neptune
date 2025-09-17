@@ -34,6 +34,7 @@ public class QueueSelectButton extends Button {
         if (meta != null) {
             meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE);
             meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             icon.setItemMeta(meta);
         }
         MenusLocale.QUEUE_SELECT_LORE.getStringList().forEach(line -> {
