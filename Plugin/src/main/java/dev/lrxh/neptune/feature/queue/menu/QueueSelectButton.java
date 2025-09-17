@@ -29,7 +29,10 @@ public class QueueSelectButton extends Button {
     @Override
     public ItemStack getItemStack(Player player) {
         List<String> lore = new ArrayList<>();
-
+        if (meta != null) {
+            meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE);
+            meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
+            icon.setItemMeta(meta);
         MenusLocale.QUEUE_SELECT_LORE.getStringList().forEach(line -> {
             String[] split = line.split("_");
 
