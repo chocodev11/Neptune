@@ -32,8 +32,6 @@ public class QueueSelectButton extends Button {
         ItemStack icon = kit.getIcon();
         ItemMeta meta = icon.getItemMeta();
         if (meta != null) {
-            meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE);
-            meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             icon.setItemMeta(meta);
         }
