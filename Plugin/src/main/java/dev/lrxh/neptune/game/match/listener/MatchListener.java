@@ -134,14 +134,14 @@ public class MatchListener implements Listener {
                 return;
             }
 
-            if (blockLocation.equals(match.getArena().getRedSpawn())
-                    || blockLocation.equals(match.getArena().getRedSpawn().clone().add(0, 1, 0))) {
+            if (isSameBlock(blockLocation, match.getArena().getRedSpawn())
+                    || isSameBlock(blockLocation, match.getArena().getRedSpawn().clone().add(0, 1, 0))) {
                 event.setCancelled(true);
                 return;
             }
 
-            if (blockLocation.equals(match.getArena().getBlueSpawn())
-                    || blockLocation.equals(match.getArena().getBlueSpawn().clone().add(0, 1, 0))) {
+            if (isSameBlock(blockLocation, match.getArena().getBlueSpawn())
+                    || isSameBlock(blockLocation, match.getArena().getBlueSpawn().clone().add(0, 1, 0))) {
                 event.setCancelled(true);
                 return;
             }
@@ -729,6 +729,12 @@ public class MatchListener implements Listener {
                 event.setCancelled(true);
             }
         }
+    }
+
+    private boolean isSameBlock(Location loc1, Location loc2) {
+        return loc1.getBlockX() == loc2.getBlockX() &&
+                loc1.getBlockY() == loc2.getBlockY() &&
+                loc1.getBlockZ() == loc2.getBlockZ();
     }
 
     private boolean isStrippable(Material material) {

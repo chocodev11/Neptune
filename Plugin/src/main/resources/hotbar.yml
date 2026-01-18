@@ -1,0 +1,144 @@
+ITEMS:
+  IN_LOBBY:
+    UNRANKED:
+      NAME: "&aQueue Match &7(Right Click)"
+      MATERIAL: "IRON_SWORD"
+      LORE:
+        - " "
+      SLOT: 0
+      ENABLED: true
+    SPECTATE_MENU:
+      NAME: "&6View Matches &7(Right Click)"
+      MATERIAL: "EMERALD"
+      LORE:
+        - " "
+      SLOT: 1
+      ENABLED: false
+    LEADERBOARDS:
+      NAME: "&cLeaderboards &7(Right Click)"
+      MATERIAL: "NETHER_STAR"
+      LORE:
+        - " "
+      SLOT: 1
+      ENABLED: true
+    KIT_EDITOR:
+      NAME: "&3Kit Editor &7(Right Click)"
+      MATERIAL: "BOOK"
+      LORE:
+        - " "
+      SLOT: 2
+      ENABLED: true
+    PARTY_CREATE:
+      NAME: "&9Create Party &7(Right Click)"
+      MATERIAL: "NAME_TAG"
+      LORE:
+        - " "
+      SLOT: 4
+      ENABLED: true
+    SETTINGS:
+      NAME: "&dSettings &7(Right Click)"
+      MATERIAL: "COMPASS"
+      LORE:
+        - " "
+      SLOT: 7
+      ENABLED: true
+    STATS:
+      NAME: "&eYour Stats &7(Right Click)"
+      MATERIAL: "PLAYER_HEAD"
+      LORE:
+        - " "
+      SLOT: 8
+      ENABLED: true
+    DIVISIONS:
+      NAME: "&eView Divisions &7(Right Click)"
+      MATERIAL: "EMERALD"
+      LORE:
+        - " "
+      SLOT: 6
+      ENABLED: true
+  IN_GAME:
+    PLAY_AGAIN:
+      NAME: "&aPlay again &7(Right Click)"
+      MATERIAL: "PAPER"
+      LORE:
+        - " "
+      SLOT: 3
+      ENABLED: true
+    REMATCH:
+      NAME: "&eRematch &7(Right Click)"
+      MATERIAL: "LEAD"
+      SLOT: 4
+      ENABLED: true
+  IN_QUEUE:
+    QUEUE_LEAVE:
+      NAME: "&cLeave Queue &7(Right Click)"
+      MATERIAL: "RED_DYE"
+      LORE:
+        - " "
+      SLOT: 8
+      ENABLED: true
+    LEADERBOARDS:
+      NAME: "&9Leaderboards &7(Right Click)"
+      MATERIAL: "NETHER_STAR"
+      LORE:
+        - " "
+      SLOT: 4
+      ENABLED: true
+    STATS:
+      NAME: "&eYour Stats &7(Right Click)"
+      MATERIAL: "PLAYER_HEAD"
+      LORE:
+        - " "
+      SLOT: 0
+      ENABLED: true
+  IN_PARTY:
+    PARTY_INFO:
+      NAME: "&aParty Information &7(Right Click)"
+      MATERIAL: "COMPASS"
+      LORE:
+        - " "
+      SLOT: 0
+      ENABLED: true
+    PARTY_SETTINGS:
+      NAME: "&eParty Settings &7(Right Click)"
+      MATERIAL: "PAPER"
+      LORE:
+        - " "
+      SLOT: 1
+      ENABLED: true
+    PARTY_EVENTS:
+      NAME: "&dParty Events &7(Right Click)"
+      MATERIAL: "NAME_TAG"
+      LORE:
+        - " "
+      SLOT: 2
+      ENABLED: true
+    PARTY_DUEL:
+      NAME: "&6Party Duel &7(Right Click)"
+      MATERIAL: "DIAMOND_SWORD"
+      SLOT: 3
+      ENABLED: true
+    PARTY_DISBAND:
+      NAME: "&cLeave Party &7(Right Click)"
+      MATERIAL: "RED_DYE"
+      LORE:
+        - " "
+      SLOT: 8
+      ENABLED: true
+  IN_SPECTATOR:
+    SPECTATOR_TELEPORT:
+      NAME: "&eTeleport to player &7(Right Click)"
+      MATERIAL: "COMPASS"
+      SLOT: 4
+      LORE:
+        - " "
+        - "&aClick to teleport to a player"
+      ENABLED: false
+    SPECTATOR_LEAVE:
+      NAME: "&cLeave &7(Right click)"
+      MATERIAL: "REDSTONE"
+      SLOT: 8
+      LORE:
+        - " "
+        - "&aClick to exit spectator mode"
+      ENABLED: true

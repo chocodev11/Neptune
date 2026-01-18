@@ -12,8 +12,10 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
+import dev.lrxh.neptune.configs.ConfigService;
 import lombok.Getter;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.BitSet;
 import java.util.concurrent.CompletableFuture;
@@ -46,7 +48,19 @@ public class FAWEArenaManager {
     }
 
     /**
-     * Configure the arena duplication offset and max slots.
+     * Load configuration from arena-settings.yml file.
+     */
+    public void loadConfig() {
+        YamlConfiguration config = ConfigService.get().getArenaSettingsConfig().getConfiguration();
+
+        this.offsetX = config.getInt("duplication.offset-x", 1000);
+        this.offsetY = config.getInt("duplication.offset-y", 0);
+        this.offsetZ = config.getInt("duplication.offset-z", 0);
+        this.maxSlots = config.getInt("duplication.max-slots", 50);
+    }
+
+    /**
+     * Configure the arena duplication offset and max slots programmatically.
      */
     public void configure(int offsetX, int offsetY, int offsetZ, int maxSlots) {
         this.offsetX = offsetX;

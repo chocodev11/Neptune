@@ -1,0 +1,508 @@
+FILTER:
+  MATERIAL: "BLACK_STAINED_GLASS_PANE"
+  NAME: ""
+PAGINATION:
+  NEXT:
+    ENABLED:
+      NAME: "&aNext Page"
+      MATERIAL: "PAPER"
+      LORE:
+        - "&eClick here to jump"
+        - "&e to the next page."
+    DISABLED:
+      NAME: "&7Next Page"
+      MATERIAL: "REDSTONE"
+      LORE:
+        - "&eThere is no available"
+        - "&e next page."
+  PREVIOUS:
+    ENABLED:
+      NAME: "&aPrevious Page"
+      MATERIAL: "PAPER"
+      LORE:
+        - "&eClick here to jump"
+        - "&e to the previous page."
+    DISABLED:
+      NAME: "&7Previous Page"
+      MATERIAL: "REDSTONE"
+      LORE:
+        - "&eThere is no available"
+        - "&e previous page."
+  CURRENT_PAGE:
+    NAME: "&fPage: &e<currentPage>/<maxPage>"
+    MATERIAL: "BOOK"
+    SLOT: 4
+QUEUE:
+  SELECT:
+    NAME: "&b<kit>"
+    SIZE: 36
+    FILTER-TYPE: "FILL"
+    TITLE: "&7Select Kit"
+    LORE:
+      - ""
+      - " &f&7* &fIn Fights: &b<playing>"
+      - " &f&7* &fQueued: &b<queue>"
+      - " "
+      - "&a&lClick to play!"
+KIT_EDITOR:
+  SELECT:
+    NAME: "&b<kit>"
+    SIZE: 36
+    FILTER-TYPE: "FILL"
+    TITLE: "&7Kit Editor"
+    LORE:
+      - ""
+      - " &aClick to edit kit"
+STAT:
+  NAME: "&b<kit>"
+  SIZE: 36
+  FILTER-TYPE: "FILL"
+  TITLE: "&7<player> Statistics"
+  LORE:
+    - " &f&7* &fWins: &b<wins>"
+    - " &f&7* &fElo: &b<elo>"
+    - " &f&7* &fLosses: &b<losses>"
+    - " &f&7* &fCurrent Streak: &b<win_streak_current>"
+    - " &f&7* &fBest Streak: &b<win_streak_best>"
+    - " &f&7* &fDivision: &b<division>"
+    - " &f&7* &fK/D &b<kill_death_ratio>"
+MATCH:
+  LIST:
+    TITLE: "&7Select Match"
+MATCH_LIST:
+  SIZE: 36
+  STARTING-SLOT: 10
+  FILTER-TYPE: "FILL"
+  ITEM:
+    NAME: "&c<playerRed_name> &7vs &9<playerBlue_name>"
+    LORE:
+      - "&fArena: &b<arena>"
+      - "&fKit: &b<kit>"
+      - ""
+      - "&a&lClick to watch match!"
+DUEL:
+  TITLE: "&7Select Kit"
+  SIZE: 36
+  FILTER-TYPE: "FILL"
+  ITEM:
+    NAME: "&b<kit>"
+  LORE:
+    - ""
+    - "&a&lClick to select kit!"
+  STARTING-SLOT: 10
+ROUNDS:
+  TITLE: "&7Select Rounds amount"
+  SIZE: 27
+  FILTER-TYPE: "FILL"
+  ITEM:
+    NAME: "&bFirst to &b&l<rounds>"
+  LORE:
+    - ""
+    - "&a&lClick to select rounds amount!"
+  AMOUNT: "1, 3, 5, 6, 10, 15, 20"
+ARENA:
+  TITLE: "Select an arena"
+  FILTER-TYPE: "FILL"
+  SIZE: 27
+  ITEM:
+    NAME: "&b<arena>"
+    LORE:
+      - ""
+      - "&fSelect <arena> as the battle arena"
+  RANDOM_ITEM:
+    NAME: 0
+    MATERIAL: "FILLED_MAP"
+    LORE:
+      - ""
+      - "&fSelect a random arena as the battle arena"
+MATCH_HISTORY:
+  TITLE: "&7Match History"
+  SIZE: 27
+  STARTING-SLOT: 10
+  FILTER-TYPE: "FILL"
+  ITEM:
+    NAME: "&b<winner> &fvs &b<loser> <won>"
+  LORE:
+    - "&7&m-------------------"
+    - "&fWinner: &a<winner>"
+    - "&fLoser: &c<loser>"
+    - "&fDate: &b<date>"
+    - "&fArena: &b<arena>"
+    - "&7&m-------------------"
+  WON: "&aWon"
+  LOST: "&cLost"
+MATCH_SPECTATE_TELEPORT:
+  TITLE: "&7Teleport to a player"
+  STARTING-SLOT: 10
+  FILTER_TYPE: "FILL"
+  ITEM:
+    NAME: "&b<player>"
+    LORE:
+      - ""
+      - "&fTeleport to: &b<player>"
+LEADERBOARD:
+  SIZE: 36
+  FILTER-TYPE: "FILL"
+  ITEM:
+    NAME: "&b<kit> Top 10"
+  LORE:
+    - "&b#1. &f<player_1> &7- &b <value_1>"
+    - "&b#2. &f<player_2> &7- &b <value_2>"
+    - "&b#3. &f<player_3> &7- &b <value_3>"
+    - "&b#4. &f<player_4> &7- &b <value_4>"
+    - "&b#5. &f<player_5> &7- &b <value_5>"
+    - "&b#6. &f<player_6> &7- &b <value_6>"
+    - "&b#7. &f<player_7> &7- &b <value_7>"
+    - "&b#8. &f<player_8> &7- &b <value_8>"
+    - "&b#9. &f<player_9> &7- &b <value_9>"
+    - "&b#10. &f<player_10> &7- &b <value_10>"
+  TYPES:
+    KILLS:
+      SLOT: 29
+      TITLE: "&7Kills Leaderboards"
+      ENABLED:
+        NAME: "&aKills Leaderboard"
+        LORE:
+          - " "
+          - "&7Click to view kills leaderboard"
+        MATERIAL: "LIME_DYE"
+      DISABLED:
+        NAME: "&cKills Leaderboard"
+        LORE:
+          - " "
+          - "&7Click to view kills leaderboard"
+        MATERIAL: "GRAY_DYE"
+    ELO:
+      TITLE: "&7Elo Leaderboards"
+      SLOT: 30
+      ENABLED:
+        NAME: "&aElo Leaderboard"
+        LORE:
+          - " "
+          - "&7Click to view elo leaderboard"
+        MATERIAL: "LIME_DYE"
+      DISABLED:
+        NAME: "&cElo Leaderboard"
+        LORE:
+          - " "
+          - "&7Click to view elo leaderboard"
+        MATERIAL: "GRAY_DYE"
+    BEST_WIN_STREAK:
+      TITLE: "&7Best Win Streak Leaderboards"
+      ENABLED:
+        NAME: "&aBest Win Streaks Leaderboard"
+        LORE:
+          - " "
+          - "&7Click to view best win streak leaderboards"
+        MATERIAL: "LIME_DYE"
+      DISABLED:
+        NAME: "&cBest Win Streaks Leaderboard"
+        LORE:
+          - " "
+          - "&7Click to view best win streak leaderboards"
+        MATERIAL: "GRAY_DYE"
+    BEST_STREAK:
+      SLOT: 31
+    DEATHS:
+      TITLE: "&7Deaths Leaderboards"
+      SLOT: 33
+      ENABLED:
+        NAME: "&aDeaths Leaderboard"
+        LORE:
+          - " "
+          - "&7Click to view win streak leaderboards"
+        MATERIAL: "LIME_DYE"
+      DISABLED:
+        NAME: "&cDeaths Leaderboard"
+        LORE:
+          - " "
+          - "&7Click to view death leaderboards"
+        MATERIAL: "GRAY_DYE"
+PARTY:
+  SETTINGS:
+    NAME: "&7Party Settings"
+    SIZE: 27
+    FILTER-TYPE: "FILL"
+    PRIVACY:
+      NAME: "&bPublic Party"
+      MATERIAL: "OAK_SIGN"
+      SLOT: 10
+      ENABLED-LORE:
+        - "&7Would you like for players to"
+        - "&7join without inviting them?"
+        - ""
+        - " &a&l▶ &aEnabled"
+        - " &7&l▶ &7Disabled"
+        - " "
+        - "&cClick to disable."
+      DISABLED-LORE:
+        - "&7Would you like for players to"
+        - "&7join without inviting them?"
+        - ""
+        - " &7&l▶ &7Enabled"
+        - " &c&l▶ &cDisabled"
+        - " "
+        - "&aClick to enable."
+    MAX_SIZE:
+      NAME: "&bPlayer Limit"
+      MATERIAL: "OAK_SIGN"
+      SLOT: 11
+      ENABLED-LORE:
+        - "&7Set the maximum size of the party."
+        - ""
+        - "&7Current Size: <size>"
+        - ""
+        - "&aClick to increase."
+        - "&cRight Click to decrease."
+    ADVERTISEMENTS:
+      NAME: "&bAdvertisements"
+      MATERIAL: "OAK_SIGN"
+      SLOT: 12
+    ADVERTISEMENTS_NO_COOLDOWN:
+      - "&7Send a message which"
+      - "&7has an invitation to your party."
+      - ""
+      - "&aClick to advertise."
+    ADVERTISEMENTS_COOLDOWN:
+      - "&7Send a message which"
+      - "&7has an invitation to your party."
+      - ""
+      - "&cCooldown <cooldown>."
+  EVENTS:
+    NAME: "&7Party Events"
+    SIZE: 27
+    FILTER-TYPE: "FILL"
+    SPLIT:
+      MATERIAL: "DIAMOND_SWORD"
+      SLOT: 10
+      NAME: "&bParty Split"
+      LORE:
+        - "&7Split the party into"
+        - "&7two teams and fight."
+        - " "
+        - "&a&lClick to start event!"
+    FFA:
+      MATERIAL: "GOLDEN_AXE"
+      SLOT: 12
+      NAME: "&bParty FFA"
+      LORE:
+        - "&7Players fight each other"
+        - "&7till one is standing."
+        - " "
+        - "&a&lClick to start event!"
+    KIT:
+      SELECT:
+        TITLE: "&bKit Select"
+        ITEM-NAME: "&b<kit>"
+        LORE:
+          - " "
+          - "&a&lClick to select kit"
+        SIZE: 27
+  DUEL:
+    NAME: "&6Party Duel"
+    STARTING-SLOT: 1
+    SIZE: 54
+    FILTER-TYPE: "FILL"
+    PARTY:
+      TITLE: "&e<leader>'s party"
+      MEMBER:
+        - "&7- &f<members>"
+DIVISIONS:
+  TITLE: "&7Divisions"
+  SIZE: 36
+  FILTER-TYPE: "FILL"
+  ITEM:
+    NAME: "<division>"
+  LORE:
+    - "&7To reach this this rank you"
+    - "&7need <elo> elo."
+SETTINGS:
+  TITLE: "&7Profile Settings"
+  SIZE: 27
+  FILTER-TYPE: "FILL"
+  PLAYER-VISIBILITY:
+    MATERIAL: "ENDER_EYE"
+    NAME: "&bPlayer Visibility"
+    LORE_ENABLED:
+      - "&7Toggle Player Visibility"
+      - "&7in spawn."
+      - ""
+      - " &a&l▶ &aEnabled"
+      - " &7&l▶ &7Disabled"
+      - " "
+      - "&cClick to disable."
+    LORE_DISABLED:
+      - "&7Toggle Player Visibility"
+      - "&7in spawn."
+      - ""
+      - " &7&l▶ &7Enabled"
+      - " &c&l▶ &cDisabled"
+      - " "
+      - "&aClick to enable."
+    SLOT: 10
+  ALLOW-SPECTATORS:
+    MATERIAL: "EGG"
+    NAME: "&bAllow Spectators"
+    LORE_ENABLED:
+      - "&7Allow Spectators to"
+      - "&7spectate your match."
+      - ""
+      - " &a&l▶ &aEnabled"
+      - " &7&l▶ &7Disabled"
+      - " "
+      - "&cClick to disable."
+    LORE_DISABLED:
+      - "&7Allow Spectators to"
+      - "&7spectate your match."
+      - ""
+      - " &7&l▶ &7Enabled"
+      - " &c&l▶ &cDisabled"
+      - " "
+      - "&aClick to enable."
+    SLOT: 11
+  ALLOW-DUEL-REQUESTS:
+    MATERIAL: "DIAMOND_SWORD"
+    NAME: "&bAllow Duel requests"
+    LORE_ENABLED:
+      - "&7Allow players to"
+      - "&7send you duel requests."
+      - ""
+      - " &a&l▶ &aEnabled"
+      - " &7&l▶ &7Disabled"
+      - " "
+      - "&cClick to disable."
+    LORE_DISABLED:
+      - "&7Allow players to"
+      - "&7send you duel requests."
+      - ""
+      - " &7&l▶ &7Enabled"
+      - " &c&l▶ &cDisabled"
+      - " "
+      - "&aClick to enable."
+    SLOT: 12
+  ALLOW-PARTY-REQUESTS:
+    MATERIAL: "STICK"
+    NAME: "&bAllow Party requests"
+    LORE_ENABLED:
+      - "&7Allow players to"
+      - "&7send you party requests."
+      - ""
+      - " &a&l▶ &aEnabled"
+      - " &7&l▶ &7Disabled"
+      - " "
+      - "&cClick to disable."
+    LORE_DISABLED:
+      - "&7Allow players to"
+      - "&7send you party requests."
+      - ""
+      - " &7&l▶ &7Enabled"
+      - " &c&l▶ &cDisabled"
+      - " "
+      - "&aClick to enable."
+    SLOT: 13
+  PING-RANGE:
+    MATERIAL: "BOOK"
+    NAME: "&bPing Range"
+    LORE:
+      - "&7Set Max ping you"
+      - "&7can match against."
+      - ""
+      - " &7Current Ping-range: &b<ping>"
+      - " "
+      - "&a + Left Click to increase"
+      - "&c - Right Click to decrease"
+    SLOT: 14
+  SETTINGS:
+    COSMETICS:
+      MATERIAL: "CAKE"
+      NAME: "&bManage Cosmetics"
+      LORE:
+        - "&7Manage unlocked cosmetics"
+        - ""
+        - " &7Current Kill Effect: &b<kill-effect>"
+        - " &7Current Kill Message: &b<kill-message>"
+        - " "
+        - "&aClick to open cosmetics menu"
+      SLOT: 15
+  COSMETICS:
+    SIZE: 27
+    FILTER-TYPE: "FILL"
+    TITLE: "&7Cosmetics Management"
+    KILL-EFFECTS:
+      SLOT: 10
+      NAME: "&bKill Effects"
+      LORE:
+        - "&7View all available kill effects"
+        - " "
+        - "&aClick to open"
+      MATERIAL: "REDSTONE"
+    KILL-MESSAGES:
+      SLOT: 11
+      NAME: "&bKill Messages"
+      MATERIAL: "BOOK"
+      LORE:
+        - "&7View all available kill messages"
+        - " "
+        - "&aClick to open"
+  KILL-EFFECTS:
+    TITLE: "&7Kill Effects"
+    SIZE: 27
+    FILTER-TYPE: "FILL"
+    SELECTED:
+      NAME: "<displayName> &7&o(Selected)"
+      LORE:
+        - " "
+        - "&eCurrently Selected"
+    UNSELECTED:
+      NAME: "<displayName>"
+      LORE:
+        - " "
+        - "&aClick to select"
+    NO-PERMISSION:
+      LORE:
+        - " "
+        - "&cNo permission"
+  MENU-SOUNDS:
+    MATERIAL: "BOOK"
+    NAME: "&bMenu Sounds"
+    LORE_ENABLED:
+      - "&7Play a sound when clicking."
+      - "&7a button"
+      - " "
+      - " &a&l▶ &aEnabled"
+      - " &7&l▶ &7Disabled"
+      - " "
+      - "&cClick to disable."
+    LORE_DISABLED:
+      - "&7Play a sound when clicking"
+      - "&7a button."
+      - ""
+      - " &7&l▶ &7Enabled"
+      - " &c&l▶ &cDisabled"
+      - " "
+      - "&aClick to enable."
+    SLOT: 16
+  KILL-MESSAGES:
+    TITLE: "&7Kill Messages"
+    SIZE: 27
+    FILTER-TYPE: "FILL"
+    SELECTED:
+      NAME: "<displayName> &7&o(Selected)"
+      LORE:
+        - "<description> "
+        - "<messages>"
+        - " "
+        - "&eCurrently Selected"
+    UNSELECTED:
+      NAME: "<displayName>"
+      LORE:
+        - "<description> "
+        - "<messages>"
+        - " "
+        - "&aClick to select"
+    NO-PERMISSION:
+      LORE:
+        - "<description> "
+        - "<messages>"
+        - " "
+        - "&cNo permission"

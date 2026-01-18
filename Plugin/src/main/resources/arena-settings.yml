@@ -1,0 +1,13 @@
+# Arena Duplication Settings
+# These settings control how arenas are duplicated for matches using FAWE
+
+duplication:
+  # Offset between each duplicated arena (in blocks)
+  # Arena copies are placed at: original + (slot * offset)
+  offset-x: 1000
+  offset-y: 0
+  offset-z: 0
+
+  # Maximum number of concurrent arena copies (match slots)
+  # Increase this if you need more simultaneous matches
+  max-slots: 50

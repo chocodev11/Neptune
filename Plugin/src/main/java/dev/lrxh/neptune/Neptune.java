@@ -34,6 +34,7 @@ import dev.lrxh.neptune.feature.settings.command.SettingProvider;
 import dev.lrxh.neptune.feature.settings.command.SettingsCommand;
 import dev.lrxh.neptune.game.arena.Arena;
 import dev.lrxh.neptune.game.arena.ArenaService;
+import dev.lrxh.neptune.game.arena.FAWEArenaManager;
 import dev.lrxh.neptune.game.arena.command.ArenaProvider;
 import dev.lrxh.neptune.game.arena.procedure.ArenaProcedureListener;
 import dev.lrxh.neptune.game.duel.command.DuelCommand;
@@ -109,6 +110,7 @@ public final class Neptune extends JavaPlugin {
 
     private void loadManager() {
         ConfigService.get().load();
+        FAWEArenaManager.get().loadConfig();
 
         loadExtensions();
         if (!isEnabled())

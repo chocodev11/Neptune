@@ -4,7 +4,6 @@ import dev.lrxh.neptune.configs.impl.*;
 import dev.lrxh.neptune.utils.ConfigFile;
 import lombok.Getter;
 
-
 @Getter
 public class ConfigService {
     private static ConfigService instance;
@@ -18,9 +17,11 @@ public class ConfigService {
     private ConfigFile divisionsConfig;
     private ConfigFile cosmeticsConfig;
     private ConfigFile killMessagesConfig;
+    private ConfigFile arenaSettingsConfig;
 
     public static ConfigService get() {
-        if (instance == null) instance = new ConfigService();
+        if (instance == null)
+            instance = new ConfigService();
 
         return instance;
     }
@@ -36,6 +37,7 @@ public class ConfigService {
         divisionsConfig = new ConfigFile("divisions");
         cosmeticsConfig = new ConfigFile("cosmetics");
         killMessagesConfig = new ConfigFile("kill-messages");
+        arenaSettingsConfig = new ConfigFile("arena-settings");
 
         initialize();
     }

@@ -1,0 +1,309 @@
+MATCH:
+  YOU: "You"
+  OPPONENT_TEAM: "Opponent Team"
+  DEATH:
+    DISCONNECT:
+      - "<player> &7disconnected"
+    KILLED:
+      - "<player> &7was killed by <killer>"
+    DIED:
+      - "<player> &7died"
+    VOID:
+      - "<player> &7fell into the void while fighting <killer>"
+  STARTED:
+    - "&aMatch Started!"
+  ROUND:
+    STARTED:
+      - "&aRound Started!"
+    START:
+      TIMER:
+        - "&fRound starting in &b<timer>&f..."
+  FOUND:
+    - " "
+    - "&a&lMatch Found!"
+    - " "
+    - "&fKit: &a<kit>"
+    - "&fOpponent: &a<opponent>"
+    - "&fPing: &b<opponent-ping>"
+    - "&fOpponent Elo: &a<opponent-elo>"
+    - ""
+    - " "
+  START:
+    TIMER:
+      - "&fMatch starting in &b<timer>&f..."
+    TITLE-HEADER: "&aFight!"
+    TITLE-FOOTER: ""
+  STARTING:
+    TITLE-HEADER: "&e<countdown-time>"
+    TITLE-FOOTER: ""
+  OUT_OF_BOUNDS:
+    TITLE-HEADER: "&cYOU ARE OUT OF BOUNDS!"
+    TITLE-FOOTER: "&cYou will start taking damage!"
+  PARKOUR:
+    CHECKPOINT:
+      - "&a<player> finished checkpoint <checkpoint> in <time>!"
+    END:
+      - "&a<player> finished the parkour in <time>!"
+  WINNER:
+    TITLE-HEADER: "&aVICTORY!"
+    TITLE-FOOTER: "&a<player> &fwon the match!"
+  LOSER:
+    TITLE-HEADER: "&cDEFEAT!"
+    TITLE-FOOTER: "&a<player> &fwon the match!"
+  COMMA: "&7, "
+  END_DETAILS_MESSAGE:
+    SOLO:
+      - " "
+      - "&bMatch Results:"
+      - "&aWinner: &e<winner> &7| &cLoser: &e<loser>"
+      - " "
+    DUEL:
+      - " "
+      - "&bMatch Results:"
+      - "&aWinner: &e<winner> &7| &cLoser: &e<loser>"
+      - " "
+    TEAM:
+      - " "
+      - "&bMatch Results:"
+      - "&aWinners: &e<winners>"
+      - "&cLosers: &e<losers>"
+      - " "
+    FFA:
+      - ""
+      - "&f&l<winner> &b&lwon the FFA match!"
+      - " "
+  RESPAWN_TIMER:
+    - "&fRespawning in &b<timer>&f..."
+  RESPAWNED:
+    - "&aRespawned!"
+  RESPAWN_TITLE:
+    HEADER: "&fRespawning in &b<timer>&f..."
+  RESPAWNED_TITLE_FOOTER: ""
+  PLAY_AGAIN:
+    ENABLED: true
+    MESSAGE: "&bDo you want to play again? &a(Click here)"
+    HOVER: "&aClick to play again!"
+  COMBO_MESSAGE:
+    ENABLE: true
+    5COMBO:
+      - "&a5 COMBO!"
+    10COMBO:
+      - "&e10 COMBO!"
+    20COMBO:
+      - "&c!!!20 COMBO!!!"
+  SPECTATE:
+    START:
+      SILENT:
+        - "&bYou silently started spectating &f<player>&b."
+    STOP:
+      - "&b<player> &fstopped spectating match."
+    SPECTATE_NOT_ALLOWED:
+      - "&c<player> has spectating disabled."
+    SPECTATE_LEAVE_IN_PARTY: "&cYou are not allowed to leave spectating mode while being in a party!"
+    NO_PERMISSION_FLAG:
+      - "&cYou don't have permission to use this flag!"
+    SELF:
+      - "&cYou can't spectate yourself!"
+    IN_MATCH:
+      - "&cYou can't spectate while in a match!"
+    TARGET_NOT_IN_MATCH:
+      - "&cPlayer isn't in a match!"
+  FORFEIT:
+    - "&cSomeone rage quit"
+  ENDERPEARL_COOLDOWN:
+    ON_GOING:
+      - "&cEnderpearl cooldown&7: &e<time>s"
+QUEUE:
+  JOIN:
+    - "&7(&bDuels&7) Joined Queue"
+  LEAVE:
+    - "&7(&bDuels&7) Left queue"
+  ACTION_BAR: "&7<kit> 1v1 &8| &a<time>"
+  REPEAT:
+    MESSAGE:
+      - "&aSearching for other players in queue..."
+    TOGGLE: true
+RANKUP:
+  TITLE-HEADER: "&b&lPROMOTED!"
+  TITLE-FOOTER: "&7You are now in &f<division>&7!"
+  MESSAGE:
+    - "&aCongratulations! &7You've been promoted to &f<division>&7."
+KIT_EDITOR:
+  START:
+    - "&bOpen your Inventory to edit layout!"
+    - "&bYou can use &f/kiteditor reset <kit> &bto reset the kit!"
+  STOP:
+    - "&aKit layout has been saved."
+  RESET:
+    - "&aKit has been reset."
+DUEL:
+  SENT:
+    - " "
+    - "&bDuel Request"
+    - " "
+    - "&fSender: &a<sender>"
+    - "&fKit: &a<kit>"
+    - "&fArena: &a<arena>"
+    - "&fRounds: &b<rounds>"
+    - " "
+    - "<accept> <deny>"
+  SENDER:
+    - " "
+    - "&bDuel Request Sent"
+    - " "
+    - "&fReceiver: &a<receiver>"
+    - "&fKit: &a<kit>"
+    - "&fArena: &a<arena>"
+    - "&fRounds: &b<rounds>"
+    - " "
+  SENDER_DENY:
+    - "&cDuel Denied."
+  RECEIVER_DENY:
+    - "&cYour duel to &c<player> &cwas denied."
+  ACCEPT: "&a&l(ACCEPT)"
+  ACCEPT_HOVER: "&aClick to accept duel request"
+  DENY: "&c&l(DENY)"
+  DENY_HOVER: "&cClick to deny duel request"
+  ALREADY_SENT: "&cYou have already sent <player> a duel request."
+  EXPIRED:
+    - "&cYour duel request to <player> has expired."
+  NOT_ONLINE:
+    - "&cPlayer isn't online!"
+  YOU_CANT_SEND_DUEL:
+    - "&cYou can't send duel requests right now!"
+  CANT_DUEL_SELF:
+    - "&cYou can't duel yourself!"
+  PLAYER_CANT_ACCEPT_DUEL:
+    - "&cPlayer can't accept duel requests!"
+  YOU_DONT_HAVE_DUEL_REQUEST:
+    - "&cYou don't have any duel request from this player!"
+  REQUEST_COULDNT_BE_ACCEPTED:
+    - "&cDuel request couldn't be accepted!"
+REMATCH:
+  SENT:
+    - " "
+    - "&e&lRematch Request"
+    - "&eYou have received a rematch request from &a<sender>&e."
+    - " "
+    - "<accept> <deny>"
+  SENDER:
+    - " "
+    - "&e&lRematch Request Sent"
+    - "&eYou have sent a rematch request to &a<receiver>&e."
+    - " "
+  ACCEPT: "&a&l(ACCEPT)"
+  ACCEPT_HOVER: "&aClick to accept rematch request"
+  DENY: "&c&l(DENY)"
+  DENY_HOVER: "&cClick to deny rematch request"
+  EXPIRED:
+    - "&cYour rematch request to <player> has expired."
+ERROR_MESSAGE: "&c<error>"
+JOIN_MESSAGE: "&8[&a+&8] &7<player> &7joined"
+LEAVE_MESSAGE: "&8[&c-&8] &7<player> &7left"
+PARTY:
+  CREATE:
+    - "&aCreated party!"
+  DISABLED:
+    - "&c<player> has party requests disabled!"
+  INVITED:
+    - "&f<player> &bhas been invited to the party!"
+  NOT_IN:
+    - "&cYou are not in a party."
+  NOT_IN_PARTY:
+    - "&c<player> isn't in a party."
+  NOT_LEADER:
+    - "&cPlayer <player> isn't a leader of a party."
+  PRIVATE:
+    - "&cThis party is private."
+  NOT_IN_SAME_PARTY:
+    - "&c<player> isn't in your party."
+  JOINED:
+    - "&f<player> &bjoined the party!"
+  INVITATION:
+    - "&bYou have been invited to &f<leader>'s &bparty <accept>"
+  INVITE_OWN:
+    - "&cYou can't invite yourself to the party."
+  TRANSFER:
+    MEMBERS:
+      - "&f<leader> &btransferred the party to &f<target>&b."
+  ACCEPT: "&a&l(ACCEPT)"
+  ACCEPT_HOVER: "&aClick to accept party request"
+  NO_PERMISSION:
+    - "&cYou do not have permission to do this."
+  ALREADY_IN:
+    - "&cYou are already in a party."
+  ALREADY_SENT:
+    - "&cYou have already sent <player> a party request."
+  ALREADY_IN_PARTY:
+    - "&c<player> is already in a party."
+  ADVERTISE:
+    MESSAGE:
+      - "&f<leader> &6wants you in their party! <join>"
+    JOIN: "&a(Join)"
+    JOIN_HOVER: "&aClick to join &f<leader>&a's party."
+  KICK:
+    - "&f<player> &bhas been kicked from the party."
+  CANNOT_CREATE:
+    - "&cYou can only create a party while in lobby!"
+  LEFT:
+    - "&f<player> &bhas left the party."
+  INFO:
+    - " "
+    - "&7&m------------------------------------------------"
+    - "&fPrivacy: &b<privacy>"
+    - "&fLeader: &b<leader>"
+    - "&fSize: &b<size>/<party-max>"
+    - "&7&m------------------------------------------------"
+  MAX_SIZE_REACHED:
+    - "&cYou have reached max party size"
+  MAX_SIZE_SETTING_REACHED:
+    - "&cThis party can only have a size limit of <max> players!"
+  NOT_ENOUGH_MEMBERS:
+    - "&cYou need at least 2 players to start a party event."
+  HELP:
+    - "&bParty Help"
+    - " "
+    - "&b/party create"
+    - "&b/party invite <player>"
+    - "&b/party disband"
+    - "&b/party leave"
+    - "&b/party kick <player>"
+    - "&b/party join <player>"
+    - "&b/party transfer <player>"
+    - "&b/party advertise"
+    - " "
+  EXPIRED:
+    - "&cYour party request to &c<player> &chas expired."
+FOLLOW:
+  STARTED:
+    - "&bStarted following &f<player>"
+  STOPPED:
+    - "&cStopped following <player>"
+NOT_ONLINE:
+  - "&c<player> isn't online!"
+CANT:
+  BREAK_OWN_BED:
+    - "&cYou can't break your own bed!"
+BEDWARS:
+  OWN_BREAK:
+    TITLE: "&cBED DESTROYED!"
+    FOOTER: "&fYou will no longer respawn!"
+  BLUE_BREAK:
+    MESSAGE: "&9Blue Bed &7was broken by <player>"
+  RED_BREAK:
+    MESSAGE: "&cRed Bed &7was broken by <player>"
+FFA:
+  KILLSTREAK_RULES: "+5"
+  KILL_ANNOUNCE:
+    - "&b⚔ &b<player> &fwas killed by &b<killer>"
+    - "&b⚔ &b<player> &fwas 360 no-scoped by &b<killer>"
+    - "&b⚔ &b<player> &fwas diddled by &b<killer>"
+    - "&b⚔ &b<player> &fwas sent a j*b application by &b<killer>"
+  KILLSTREAK_ANNOUNCE:
+    ENABLED: false
+    MESSAGE:
+      - " "
+      - "&b<player> &fis now on a &b&l<killstreak> KILLSTREAK!"
+      - " "
+IN_MATCH_BLOCKED_COMMAND:
+  - "&cThis command is blocked while in a match!"
