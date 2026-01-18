@@ -30,7 +30,6 @@ public class LeaderboardMenu extends Menu {
                 MenusLocale.LEADERBOARD_SIZE.getInt(),
                 Filter.valueOf(MenusLocale.LEADERBOARD_FILTER.getString()));
         this.leaderboardType = leaderboardType;
-        setUpdateEveryTick(true);
     }
 
     @Override
@@ -77,17 +76,18 @@ public class LeaderboardMenu extends Menu {
 
         List<String> lore = new ArrayList<>();
         for (String templateLine : MenusLocale.LEADERBOARD_LORE.getStringList()) {
-            lore.add(replaceLeaderboardPlaceholders(templateLine, kit, leaderboard));
+            lore.add(replaceLeaderboardPlaceholders(templateLine, leaderboard));
         }
 
         return lore;
     }
 
-    private String replaceLeaderboardPlaceholders(String template, Kit kit, List<PlayerEntry> leaderboard) {
+    private String replaceLeaderboardPlaceholders(String template, List<PlayerEntry> leaderboard) {
         String result = template;
 
         for (int i = 1; i <= 10; i++) {
-            PlayerEntry entry = getEntryAtPosition(kit, leaderboard, i);
+            // Use the already-fetched and sorted leaderboard list directly
+            PlayerEntry entry = (i <= leaderboard.size()) ? leaderboard.get(i - 1) : null;
 
             String player = (entry != null && entry.getUsername() != null) ? entry.getUsername() : "???";
             String value = (entry != null) ? String.valueOf(entry.getValue()) : "???";
@@ -98,11 +98,5 @@ public class LeaderboardMenu extends Menu {
         }
 
         return result;
-    }
-
-    private PlayerEntry getEntryAtPosition(Kit kit, List<PlayerEntry> leaderboard, int position) {
-        return position <= leaderboard.size()
-                ? LeaderboardService.get().getLeaderboardSlot(kit, leaderboardType, position)
-                : null;
     }
 }

@@ -89,9 +89,8 @@ public class LeaderboardService {
         if (entries == null)
             return Collections.emptyList();
 
-        List<PlayerEntry> sortedEntries = new ArrayList<>(entries);
-        sortedEntries.sort((a, b) -> Integer.compare(b.getValue(), a.getValue()));
-        return sortedEntries;
+        // Return unmodifiable view - list is already sorted when loaded/updated
+        return Collections.unmodifiableList(entries);
     }
 
     public CompletableFuture<Void> load() {
@@ -189,7 +188,7 @@ public class LeaderboardService {
     }
 
     private CompletableFuture<Void> loadLB(LeaderboardType leaderboardType,
-                                           LeaderboardPlayerEntry leaderboardPlayerEntry) {
+            LeaderboardPlayerEntry leaderboardPlayerEntry) {
         Kit kit = leaderboardPlayerEntry.getKit();
         UUID playerUUID = leaderboardPlayerEntry.getPlayerUUID();
         String username = leaderboardPlayerEntry.getUsername();

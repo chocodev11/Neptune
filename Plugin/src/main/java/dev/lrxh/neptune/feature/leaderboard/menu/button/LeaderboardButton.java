@@ -29,25 +29,25 @@ public class LeaderboardButton extends Button {
 
         List<PlayerEntry> leaderboard = LeaderboardService.get().getPlayerEntries(kit, leaderboardType);
 
-        MenusLocale.LEADERBOARD_LORE.getStringList().forEach(line -> {
+        for (String templateLine : MenusLocale.LEADERBOARD_LORE.getStringList()) {
+            String line = templateLine;
             for (int i = 1; i <= 10; i++) {
-                PlayerEntry playerEntry = null;
-                if (i <= leaderboard.size()) {
-                    playerEntry = LeaderboardService.get().getLeaderboardSlot(kit, leaderboardType, i);
-                }
+                // Use the already-fetched leaderboard list directly instead of calling
+                // getLeaderboardSlot
+                PlayerEntry playerEntry = (i <= leaderboard.size()) ? leaderboard.get(i - 1) : null;
 
                 if (playerEntry == null) {
-                    line = line.replaceAll("<player_" + i + ">", "???");
-                    line = line.replaceAll("<value_" + i + ">", "???");
+                    line = line.replace("<player_" + i + ">", "???");
+                    line = line.replace("<value_" + i + ">", "???");
                     continue;
                 }
 
-                line = line.replaceAll("<player_" + i + ">", playerEntry.getUsername());
-                line = line.replaceAll("<value_" + i + ">", String.valueOf(playerEntry.getValue()));
+                line = line.replace("<player_" + i + ">", playerEntry.getUsername());
+                line = line.replace("<value_" + i + ">", String.valueOf(playerEntry.getValue()));
             }
 
             lore.add(line);
-        });
+        }
 
         return new ItemBuilder(kit.getIcon())
                 .name(MenusLocale.LEADERBOARD_ITEM_NAME.getString().replace("<kit>", kit.getDisplayName()))
