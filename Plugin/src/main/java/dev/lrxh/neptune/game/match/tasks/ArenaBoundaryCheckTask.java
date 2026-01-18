@@ -36,26 +36,26 @@ public class ArenaBoundaryCheckTask extends NeptuneRunnable {
                 if (profile == null || profile.getMatch() != match)
                     continue;
 
-                if (profile.getState().equals(ProfileState.IN_SPECTATOR) || participant.isDead())
+                if (profile.getState().equals(ProfileState.IN_SPECTATOR))
                     continue;
 
                 if (!LocationUtil.isInside(player.getLocation(), arena.getMin(), arena.getMax())) {
                     if (match.getKit().is(KitRule.PARKOUR)) {
                         player.teleport(participant.getSpawn(match));
-                        return;
+                        continue;
                     }
 
                     participant.setDeathCause(DeathCause.DIED);
                     match.onDeath(participant);
                     participant.sendTitle(MessagesLocale.MATCH_OUT_OF_BOUNDS_TITLE_HEADER,
                             MessagesLocale.MATCH_OUT_OF_BOUNDS_TITLE_FOOTER, 10);
-                    return;
+                    continue;
                 }
 
                 if (player.getLocation().getBlockY() > arena.getBuildLimit() + 1) {
                     if (match.getKit().is(KitRule.PARKOUR)) {
                         player.teleport(participant.getSpawn(match));
-                        return;
+                        continue;
                     }
 
                     if (profile.getState().equals(ProfileState.IN_SPECTATOR) || participant.isDead())

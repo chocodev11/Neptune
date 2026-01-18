@@ -119,6 +119,9 @@ public class SoloFightMatch extends Match implements ISoloFightMatch {
         Profile winnerProfile = API.getProfile(winner.getPlayerUUID());
         Profile loserProfile = API.getProfile(loser.getPlayerUUID());
 
+        if (winnerProfile == null || loserProfile == null)
+            return;
+
         String kitName = getKit().getDisplayName();
         String arenaName = getArena().getDisplayName();
         String date = DateUtils.getDate();
@@ -253,17 +256,17 @@ public class SoloFightMatch extends Match implements ISoloFightMatch {
             participant.getLastAttacker().playSound(Sound.UI_BUTTON_CLICK);
         }
 
-        this.setEnded(true);
-
-        participant.playKillEffect();
-        PlayerUtil.doVelocityChange(participant.getPlayerUUID());
-
-        if (!participant.isDisconnected() && !participant.isLeft() && !isEnded()) {
+        if (!participant.isDisconnected() && !participant.isLeft()) {
             Participant otherParticipant = participantA.equals(participant) ? participantB : participantA;
             if (otherParticipant.getPlayer() != null) {
                 addSpectator(participant.getPlayer(), otherParticipant.getPlayer(), false, false);
             }
         }
+
+        this.setEnded(true);
+
+        participant.playKillEffect();
+        PlayerUtil.doVelocityChange(participant.getPlayerUUID());
 
         end(participant);
     }

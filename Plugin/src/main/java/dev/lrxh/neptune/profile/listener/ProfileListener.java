@@ -75,8 +75,9 @@ public class ProfileListener implements Listener {
                 Participant participant = match.getParticipant(player.getUniqueId());
                 if (participant == null)
                     return;
-                match.onLeave(match.getParticipant(player), true);
-                MatchParticipantDeathEvent deathEvent = new MatchParticipantDeathEvent(match, participant, DeathCause.DISCONNECT.getMessage().toString());
+                match.onLeave(participant, true);
+                MatchParticipantDeathEvent deathEvent = new MatchParticipantDeathEvent(match, participant,
+                        DeathCause.DISCONNECT.getMessage().toString());
                 Bukkit.getPluginManager().callEvent(deathEvent);
             }
         }
