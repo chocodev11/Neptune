@@ -1,91 +1,32 @@
 package dev.lrxh.neptune.game.arena;
 
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.math.BlockVector3;
 import dev.lrxh.api.arena.IArena;
-import dev.lrxh.blockChanger.world.VirtualWorld;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
 import java.util.List;
-import java.util.Objects;
 
-@Getter
-public class VirtualArena implements IArena {
-    private final String name;
-    private final String displayName;
-    private final boolean enabled;
-    private final int deathY;
-    private final double buildLimit;
-    private final List<Material> whitelistedBlocks;
-    private final IArena owner;
-    private final VirtualWorld virtualWorld;
-    @Setter
-    private Location redSpawn;
-    @Setter
-    private Location blueSpawn;
-    @Setter
-    private Location min;
-    @Setter
-    private Location max;
+/**
+ * VirtualArena is now an alias for DuplicatedArena.
+ * This class exists for backward compatibility - new code should use
+ * DuplicatedArena directly.
+ * 
+ * @deprecated Use {@link DuplicatedArena} instead
+ */
+@Deprecated
+public class VirtualArena extends DuplicatedArena {
 
-    public VirtualArena(String name,
-                        String displayName,
-                        Location redSpawn,
-                        Location blueSpawn,
-                        Location min,
-                        Location max,
-                        double buildLimit,
-                        boolean enabled,
-                        List<Material> whitelistedBlocks,
-                        int deathY,
-                        IArena owner,
-                        VirtualWorld virtualWorld) {
-        this.name = name;
-        this.displayName = displayName;
-        this.redSpawn = redSpawn;
-        this.blueSpawn = blueSpawn;
-        this.min = min;
-        this.max = max;
-        this.buildLimit = buildLimit;
-        this.enabled = enabled;
-        this.whitelistedBlocks = whitelistedBlocks;
-        this.deathY = deathY;
-        this.owner = owner;
-        this.virtualWorld = virtualWorld;
-    }
-
-    @Override
-    public boolean isSetup() {
-        return redSpawn != null && blueSpawn != null && min != null && max != null && virtualWorld != null;
-    }
-
-    @Override
-    public void remove() {
-        virtualWorld.unload();
-    }
-
-    @Override
-    public void restore() {
-        //TODO: Find a better way to restore virtual worlds other than creating a CuboidSnapshot
-    }
-
-    @Override
-    public void delete(boolean save) {
-        //Empty since you can't delete a virtual arena
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        VirtualArena that = (VirtualArena) o;
-        return Objects.equals(name, that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
+    public VirtualArena(String name, String displayName,
+            Location redSpawn, Location blueSpawn,
+            Location min, Location max,
+            double buildLimit, boolean enabled,
+            List<Material> whitelistedBlocks, int deathY,
+            IArena owner, Clipboard clipboard,
+            int slotIndex, BlockVector3 offset) {
+        super(name, displayName, redSpawn, blueSpawn, min, max,
+                buildLimit, enabled, whitelistedBlocks, deathY,
+                owner, clipboard, slotIndex, offset);
     }
 }

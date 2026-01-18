@@ -1,6 +1,6 @@
 package dev.lrxh.neptune.game.arena.menu;
 
-import dev.lrxh.blockChanger.snapshot.CuboidSnapshot;
+import dev.lrxh.neptune.game.arena.FAWEArenaManager;
 import dev.lrxh.neptune.game.arena.Arena;
 import dev.lrxh.neptune.game.arena.impl.EdgeType;
 import dev.lrxh.neptune.game.arena.menu.button.*;
@@ -40,16 +40,17 @@ public class ArenaManagementMenu extends Menu {
             buttons.add(new ArenaEnableButton(getSize() - 1, arena));
 
             buttons.add(new ArenaRenameButton(23, arena));
-            buttons.add(new DisplayButton(22, Material.MAP, "&aTeleport to arena", o -> player.teleport(arena.getBlueSpawn())));
+            buttons.add(new DisplayButton(22, Material.MAP, "&aTeleport to arena",
+                    o -> player.teleport(arena.getBlueSpawn())));
 
             buttons.add(new ArenaDeleteButton(21, arena));
 
             buttons.add(new ArenaSetDeathYButton(9, arena));
 
-
             buttons.add(new ArenaSetLimitButton(4, arena));
 
-            buttons.add(new DisplayButton(getSize() - 5, Material.GRASS_BLOCK, "&aManage Whitelisted Blocks", o -> new WhitelistedBlocksMenu(arena).open(player)));
+            buttons.add(new DisplayButton(getSize() - 5, Material.GRASS_BLOCK, "&aManage Whitelisted Blocks",
+                    o -> new WhitelistedBlocksMenu(arena).open(player)));
             buttons.add(new ArenaSetEdgeButton(8, arena, EdgeType.MAX));
             buttons.add(new ArenaSetEdgeButton(7, arena, EdgeType.MIN));
 
@@ -62,8 +63,8 @@ public class ArenaManagementMenu extends Menu {
                 @Override
                 public void onClick(ClickType type, Player player) {
                     arena.setDoneLoading(false);
-                    CuboidSnapshot.create(arena.getMin(), arena.getMax()).thenAccept(snapshot -> {
-                        arena.setSnapshot(snapshot);
+                    FAWEArenaManager.get().copyRegion(arena.getMin(), arena.getMax()).thenAccept(clipboard -> {
+                        arena.setClipboard(clipboard);
                         arena.setDoneLoading(true);
                     });
                 }

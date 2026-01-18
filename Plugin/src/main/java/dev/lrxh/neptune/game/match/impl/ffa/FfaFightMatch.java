@@ -4,7 +4,7 @@ import dev.lrxh.api.match.IFffaFightMatch;
 import dev.lrxh.api.match.participant.IParticipant;
 import dev.lrxh.neptune.API;
 import dev.lrxh.neptune.configs.impl.MessagesLocale;
-import dev.lrxh.neptune.game.arena.VirtualArena;
+import dev.lrxh.neptune.game.arena.DuplicatedArena;
 import dev.lrxh.neptune.game.kit.Kit;
 import dev.lrxh.neptune.game.match.Match;
 import dev.lrxh.neptune.game.match.impl.MatchState;
@@ -29,7 +29,7 @@ public class FfaFightMatch extends Match implements IFffaFightMatch {
     @Getter
     private Participant winner;
 
-    public FfaFightMatch(VirtualArena arena, Kit kit, List<Participant> participants) {
+    public FfaFightMatch(DuplicatedArena arena, Kit kit, List<Participant> participants) {
         super(MatchState.STARTING, arena, kit, participants, 1, true, false);
         this.winner = null;
         this.deadParticipants = new ArrayList<>();
@@ -50,9 +50,12 @@ public class FfaFightMatch extends Match implements IFffaFightMatch {
         setState(MatchState.ENDING);
         loser.setLoser(true);
         forEachParticipant(participant -> {
-            if (winner == null) return;
+            if (winner == null)
+                return;
             participant.sendTitle(CC.color(MessagesLocale.MATCH_WINNER_TITLE_HEADER.getString()),
-                    CC.color(MessagesLocale.MATCH_WINNER_TITLE_FOOTER.getString().replace("<player>", winner.getNameUnColored())), 100);
+                    CC.color(MessagesLocale.MATCH_WINNER_TITLE_FOOTER.getString().replace("<player>",
+                            winner.getNameUnColored())),
+                    100);
         });
 
         loser.playKillEffect();
@@ -62,7 +65,8 @@ public class FfaFightMatch extends Match implements IFffaFightMatch {
 
     @Override
     public void onDeath(Participant participant) {
-        if (isEnded()) return;
+        if (isEnded())
+            return;
 
         hideParticipant(participant);
         participant.setDead(true);
@@ -79,7 +83,8 @@ public class FfaFightMatch extends Match implements IFffaFightMatch {
             }
 
             if (profile != null) {
-                profile.setState(profile.getGameData().getParty() == null ? ProfileState.IN_LOBBY : ProfileState.IN_PARTY);
+                profile.setState(
+                        profile.getGameData().getParty() == null ? ProfileState.IN_LOBBY : ProfileState.IN_PARTY);
                 profile.setMatch(null);
             }
         }
@@ -91,7 +96,8 @@ public class FfaFightMatch extends Match implements IFffaFightMatch {
         sendDeathMessage(participant);
         deadParticipants.add(participant);
 
-        if (!isLastPlayerStanding()) return;
+        if (!isLastPlayerStanding())
+            return;
 
         winner = getLastPlayerStanding();
         setEnded(true);
@@ -113,7 +119,8 @@ public class FfaFightMatch extends Match implements IFffaFightMatch {
 
     @Override
     public void onLeave(Participant participant, boolean quit) {
-        if (isEnded()) return;
+        if (isEnded())
+            return;
 
         participant.setDeathCause(DeathCause.DISCONNECT);
         Profile profile = API.getProfile(participant.getPlayerUUID());
@@ -136,12 +143,14 @@ public class FfaFightMatch extends Match implements IFffaFightMatch {
         setState(MatchState.IN_ROUND);
         showPlayerForSpectators();
         playSound(Sound.ENTITY_FIREWORK_ROCKET_BLAST);
-        sendTitle(CC.color(MessagesLocale.MATCH_START_TITLE_HEADER.getString()), CC.color(MessagesLocale.MATCH_START_TITLE_FOOTER.getString()), 20);
+        sendTitle(CC.color(MessagesLocale.MATCH_START_TITLE_HEADER.getString()),
+                CC.color(MessagesLocale.MATCH_START_TITLE_FOOTER.getString()), 20);
     }
 
     @Override
     public void sendEndMessage() {
-        if (winner == null) return;
+        if (winner == null)
+            return;
         forEachParticipant(participant -> MessagesLocale.MATCH_END_DETAILS_FFA.send(participant.getPlayerUUID(),
                 new Replacement("<winner>", winner.getNameUnColored()),
                 new Replacement("<kit>", getKit().getDisplayName())));

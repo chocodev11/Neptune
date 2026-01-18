@@ -5,7 +5,7 @@ import dev.lrxh.neptune.API;
 import dev.lrxh.neptune.Neptune;
 import dev.lrxh.neptune.configs.impl.MessagesLocale;
 import dev.lrxh.neptune.configs.impl.SettingsLocale;
-import dev.lrxh.neptune.game.arena.VirtualArena;
+import dev.lrxh.neptune.game.arena.DuplicatedArena;
 import dev.lrxh.neptune.game.kit.Kit;
 import dev.lrxh.neptune.game.kit.impl.KitRule;
 import dev.lrxh.neptune.game.match.Match;
@@ -79,14 +79,15 @@ public class MatchListener implements Listener {
 
     @EventHandler
     public void onGateOpen(PlayerInteractEvent event) {
-        if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) return;
+        if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE))
+            return;
 
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block block = event.getClickedBlock();
-            if (block != null && block.getType().toString().endsWith("_FENCE_GATE")) event.setCancelled(true);
+            if (block != null && block.getType().toString().endsWith("_FENCE_GATE"))
+                event.setCancelled(true);
         }
     }
-
 
     @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
@@ -117,7 +118,7 @@ public class MatchListener implements Listener {
                 return;
             }
 
-            VirtualArena arena = match.getArena();
+            DuplicatedArena arena = match.getArena();
 
             // Check height limit
             if (blockLocation.getY() >= arena.getBuildLimit()) {
@@ -259,7 +260,7 @@ public class MatchListener implements Listener {
         }
 
         getMatchForPlayer(player).ifPresent(match -> {
-            VirtualArena arena = match.getArena();
+            DuplicatedArena arena = match.getArena();
             List<Block> originalBlocks = new ArrayList<>(event.blockList());
             List<Block> allowedBlocks = originalBlocks.stream()
                     .filter(block -> arena.getWhitelistedBlocks().contains(block.getType()))
@@ -535,7 +536,7 @@ public class MatchListener implements Listener {
                 return;
             }
 
-            VirtualArena arena = match.getArena();
+            DuplicatedArena arena = match.getArena();
 
             if (blockLocation.getY() >= arena.getBuildLimit()) {
                 event.setCancelled(true);
@@ -661,7 +662,7 @@ public class MatchListener implements Listener {
 
         Profile profile = profileOpt.get();
         Match match = profile.getMatch();
-        VirtualArena arena = match.getArena();
+        DuplicatedArena arena = match.getArena();
 
         Participant participant = match.getParticipant(player.getUniqueId());
         if (participant == null)
@@ -843,7 +844,8 @@ public class MatchListener implements Listener {
             return;
 
         Profile playerProfile = API.getProfile(player);
-        if (playerProfile != null && playerProfile.getState().equals(ProfileState.IN_CUSTOM)) return;
+        if (playerProfile != null && playerProfile.getState().equals(ProfileState.IN_CUSTOM))
+            return;
 
         Optional<Profile> profileOpt = getProfile(player);
         if (profileOpt.isEmpty()) {
@@ -853,7 +855,7 @@ public class MatchListener implements Listener {
 
         Profile profile = profileOpt.get();
         Match match = profile.getMatch();
-        VirtualArena arena = match.getArena();
+        DuplicatedArena arena = match.getArena();
 
         if (profile.getState().equals(ProfileState.IN_SPECTATOR)) {
             event.setCancelled(true);
@@ -899,7 +901,8 @@ public class MatchListener implements Listener {
             return;
 
         Profile playerProfile = API.getProfile(player);
-        if (playerProfile != null && playerProfile.getState().equals(ProfileState.IN_CUSTOM)) return;
+        if (playerProfile != null && playerProfile.getState().equals(ProfileState.IN_CUSTOM))
+            return;
 
         Optional<Profile> profileOpt = getProfile(player);
         if (profileOpt.isEmpty()) {
@@ -953,7 +956,8 @@ public class MatchListener implements Listener {
         ProjectileSource shooter = projectile.getShooter();
 
         if (shooter instanceof Player player) {
-            if (player.getGameMode().equals(GameMode.CREATIVE)) return;
+            if (player.getGameMode().equals(GameMode.CREATIVE))
+                return;
             Profile profile = API.getProfile(player);
 
             if (profile == null) {
@@ -961,7 +965,8 @@ public class MatchListener implements Listener {
                 return;
             }
 
-            if (profile.getState().equals(ProfileState.IN_CUSTOM)) return;
+            if (profile.getState().equals(ProfileState.IN_CUSTOM))
+                return;
 
             Match match = profile.getMatch();
 
@@ -983,7 +988,7 @@ public class MatchListener implements Listener {
         }
 
         getMatchForPlayer(player).ifPresent(match -> {
-            VirtualArena arena = match.getArena();
+            DuplicatedArena arena = match.getArena();
             List<Block> originalBlocks = new ArrayList<>(event.blockList());
             List<Block> allowedBlocks = originalBlocks.stream()
                     .filter(block -> arena.getWhitelistedBlocks().contains(block.getType()))

@@ -6,7 +6,7 @@ import com.jonahseguin.drink.annotation.Text;
 import com.jonahseguin.drink.provider.spigot.UUIDProvider;
 import dev.lrxh.api.NeptuneAPI;
 import dev.lrxh.api.NeptuneAPIImpl;
-import dev.lrxh.blockChanger.BlockChanger;
+
 import dev.lrxh.neptune.cache.Cache;
 import dev.lrxh.neptune.commands.FollowCommand;
 import dev.lrxh.neptune.commands.LeaveCommand;
@@ -118,7 +118,6 @@ public final class Neptune extends JavaPlugin {
         if (!isEnabled())
             return;
 
-        BlockChanger.initialize(this);
         ArenaService.get().load();
         KitService.get().load();
         this.cache = new Cache();
@@ -146,14 +145,14 @@ public final class Neptune extends JavaPlugin {
 
     private void registerListeners() {
         Arrays.asList(
-                        new ProfileListener(),
-                        new MatchListener(),
-                        new GlobalListener(),
-                        new ItemListener(),
-                        new MenuListener(),
-                        new ArenaProcedureListener(),
-                        new KitProcedureListener(),
-                        new ItemBrowserListener())
+                new ProfileListener(),
+                new MatchListener(),
+                new GlobalListener(),
+                new ItemListener(),
+                new MenuListener(),
+                new ArenaProcedureListener(),
+                new KitProcedureListener(),
+                new ItemBrowserListener())
                 .forEach(listener -> getServer().getPluginManager().registerEvents(listener, this));
     }
 

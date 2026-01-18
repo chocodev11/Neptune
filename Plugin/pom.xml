@@ -45,6 +45,15 @@
             <id>codemc-snapshots</id>
             <url>https://repo.codemc.io/repository/maven-snapshots/</url>
         </repository>
+        <repository>
+            <id>intellectualsites</id>
+            <url>https://mvn.intellectualsites.com/content/groups/public/</url>
+        </repository>
+        <!-- EngineHub repository for lin-bus-bom (required by FAWE) -->
+        <repository>
+            <id>enginehub</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
     </repositories>
 
     <dependencyManagement>
@@ -99,10 +108,16 @@
         <!--            <version>2.0-SNAPSHOT</version>-->
         <!--        </dependency>-->
 
+        <!-- FAWE for arena clipboard copy/paste -->
         <dependency>
-            <groupId>com.github.Devlrxxh</groupId>
-            <artifactId>BlockChanger</artifactId>
-            <version>686b4ec30d</version>
+            <groupId>com.fastasyncworldedit</groupId>
+            <artifactId>FastAsyncWorldEdit-Core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fastasyncworldedit</groupId>
+            <artifactId>FastAsyncWorldEdit-Bukkit</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

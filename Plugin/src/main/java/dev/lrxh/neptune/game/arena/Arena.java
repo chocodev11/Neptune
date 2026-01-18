@@ -1,22 +1,16 @@
 package dev.lrxh.neptune.game.arena;
 
-import com.google.common.collect.Lists;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.math.BlockVector3;
 import dev.lrxh.api.arena.IArena;
-import dev.lrxh.blockChanger.BlockChanger;
-import dev.lrxh.blockChanger.snapshot.CuboidSnapshot;
 import dev.lrxh.neptune.game.kit.KitService;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.*;
-import org.bukkit.block.Biome;
-import org.bukkit.generator.BiomeProvider;
-import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.generator.WorldInfo;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.Location;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -33,7 +27,7 @@ public class Arena implements IArena {
     private Location max;
     private double buildLimit;
     private List<Material> whitelistedBlocks;
-    private CuboidSnapshot snapshot;
+    private Clipboard clipboard;
     private Arena owner;
     private boolean doneLoading;
 
@@ -51,8 +45,8 @@ public class Arena implements IArena {
     }
 
     public Arena(String name, String displayName, Location redSpawn, Location blueSpawn,
-                 Location min, Location max, double buildLimit, boolean enabled,
-                 List<Material> whitelistedBlocks, int deathY) {
+            Location min, Location max, double buildLimit, boolean enabled,
+            List<Material> whitelistedBlocks, int deathY) {
 
         this(name, displayName, redSpawn, blueSpawn, enabled, deathY);
         this.min = min;
@@ -62,22 +56,21 @@ public class Arena implements IArena {
 
         if (min != null && max != null) {
             this.doneLoading = false;
-            CuboidSnapshot.create(min, max).thenAccept(cuboidSnapshot -> {
-                this.snapshot = cuboidSnapshot;
+            FAWEArenaManager.get().copyRegion(min, max).thenAccept(clip -> {
+                this.clipboard = clip;
                 this.doneLoading = true;
             });
         }
-
     }
 
     public Arena(String name, String displayName, Location redSpawn, Location blueSpawn,
-                 Location min, Location max, double buildLimit, boolean enabled,
-                 List<Material> whitelistedBlocks, int deathY, CuboidSnapshot snapshot, Arena owner) {
+            Location min, Location max, double buildLimit, boolean enabled,
+            List<Material> whitelistedBlocks, int deathY, Clipboard clipboard, Arena owner) {
 
         this(name, displayName, redSpawn, blueSpawn, min, max, buildLimit, enabled, whitelistedBlocks, deathY);
-        this.snapshot = snapshot;
+        this.clipboard = clipboard;
         this.owner = owner;
-        this.doneLoading = (snapshot != null);
+        this.doneLoading = (clipboard != null);
     }
 
     public Arena(String name) {
@@ -95,107 +88,60 @@ public class Arena implements IArena {
 
     @Override
     public void remove() {
-
+        // Empty for base Arena
     }
 
-    public synchronized CompletableFuture<VirtualArena> createDuplicate() {
-        CompletableFuture<VirtualArena> future = new CompletableFuture<>();
+    /**
+     * Create a duplicate of this arena at an offset position using FAWE.
+     */
+    public synchronized CompletableFuture<DuplicatedArena> createDuplicate() {
+        CompletableFuture<DuplicatedArena> future = new CompletableFuture<>();
         UUID uuid = UUID.randomUUID();
-        WorldCreator creator = new WorldCreator(uuid.toString())
-                .type(WorldType.NORMAL)
-                .generator(new ChunkGenerator() {
-                    @Override
-                    public boolean canSpawn(@NotNull World world, int x, int z) {
-                        return true;
-                    }
 
-                    @Override
-                    public @NotNull Location getFixedSpawnLocation(@NotNull World world, @NotNull Random random) {
-                        return new Location(world, 0, 0, 0);
-                    }
+        // Allocate a slot for this duplicate
+        int slotIndex = FAWEArenaManager.get().allocateSlot();
+        if (slotIndex == -1) {
+            future.completeExceptionally(new RuntimeException("No arena slots available"));
+            return future;
+        }
 
+        // Calculate offset for this slot
+        BlockVector3 offset = FAWEArenaManager.get().getOffsetForSlot(slotIndex);
 
-                    @Override
-                    public boolean shouldGenerateNoise(@NotNull WorldInfo worldInfo, @NotNull Random random, int chunkX, int chunkZ) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean shouldGenerateSurface(@NotNull WorldInfo worldInfo, @NotNull Random random, int chunkX, int chunkZ) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean shouldGenerateCaves(@NotNull WorldInfo worldInfo, @NotNull Random random, int chunkX, int chunkZ) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean shouldGenerateDecorations(@NotNull WorldInfo worldInfo, @NotNull Random random, int chunkX, int chunkZ) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean shouldGenerateMobs(@NotNull WorldInfo worldInfo, @NotNull Random random, int chunkX, int chunkZ) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean shouldGenerateStructures(@NotNull WorldInfo worldInfo, @NotNull Random random, int chunkX, int chunkZ) {
-                        return false;
-                    }
-                })
-                .biomeProvider(new BiomeProvider() {
-                    @Override
-                    public org.bukkit.block.@NotNull Biome getBiome(@NotNull WorldInfo worldInfo, int x, int y, int z) {
-                        return org.bukkit.block.Biome.PLAINS;
-                    }
-
-                    @Override
-                    public @NotNull List<Biome> getBiomes(@NotNull WorldInfo worldInfo) {
-                        return Lists.newArrayList(org.bukkit.block.Biome.PLAINS);
-                    }
-                });
-
-        BlockChanger.createVirtualWorld(creator).thenAccept(virtualWorld -> {
+        // Paste the arena at the offset position
+        FAWEArenaManager.get().pasteClipboard(clipboard, this.min.getWorld(), offset).thenRun(() -> {
             try {
-                World world = virtualWorld.getWorld();
-
-                Location min = this.min.clone();
-                min.setWorld(world);
-                Location max = this.max.clone();
-                max.setWorld(world);
-                Location redSpawn = this.redSpawn.clone();
-                redSpawn.setWorld(world);
-                Location blueSpawn = this.blueSpawn.clone();
-                blueSpawn.setWorld(world);
-
-
-                virtualWorld.paste(snapshot);
+                // Calculate new locations with offset applied
+                Location newMin = this.min.clone().add(offset.x(), offset.y(), offset.z());
+                Location newMax = this.max.clone().add(offset.x(), offset.y(), offset.z());
+                Location newRedSpawn = this.redSpawn.clone().add(offset.x(), offset.y(), offset.z());
+                Location newBlueSpawn = this.blueSpawn.clone().add(offset.x(), offset.y(), offset.z());
 
                 String dupName = this.name + "_" + uuid;
 
-                VirtualArena duplicate = new VirtualArena(
+                DuplicatedArena duplicate = new DuplicatedArena(
                         dupName,
                         this.displayName,
-                        redSpawn,
-                        blueSpawn,
-                        min,
-                        max,
+                        newRedSpawn,
+                        newBlueSpawn,
+                        newMin,
+                        newMax,
                         this.buildLimit,
                         this.enabled,
                         new ArrayList<>(this.whitelistedBlocks),
                         this.deathY,
                         this,
-                        virtualWorld
-                );
+                        this.clipboard,
+                        slotIndex,
+                        offset);
 
                 future.complete(duplicate);
-
             } catch (Exception ex) {
+                FAWEArenaManager.get().releaseSlot(slotIndex);
                 future.completeExceptionally(ex);
             }
         }).exceptionally(ex -> {
+            FAWEArenaManager.get().releaseSlot(slotIndex);
             future.completeExceptionally(ex);
             return null;
         });
@@ -212,8 +158,8 @@ public class Arena implements IArena {
     }
 
     public void restore() {
-        if (snapshot != null) {
-            snapshot.restore(true);
+        if (clipboard != null && min != null) {
+            FAWEArenaManager.get().restoreArena(clipboard, min.getWorld(), BlockVector3.ZERO);
         }
     }
 
@@ -221,8 +167,8 @@ public class Arena implements IArena {
         this.min = min;
         if (min != null && max != null) {
             this.doneLoading = false;
-            CuboidSnapshot.create(min, max).thenAccept(cuboidSnapshot -> {
-                this.snapshot = cuboidSnapshot;
+            FAWEArenaManager.get().copyRegion(min, max).thenAccept(clip -> {
+                this.clipboard = clip;
                 this.doneLoading = true;
             });
         }
@@ -232,8 +178,8 @@ public class Arena implements IArena {
         this.max = max;
         if (min != null && max != null) {
             this.doneLoading = false;
-            CuboidSnapshot.create(min, max).thenAccept(cuboidSnapshot -> {
-                this.snapshot = cuboidSnapshot;
+            FAWEArenaManager.get().copyRegion(min, max).thenAccept(clip -> {
+                this.clipboard = clip;
                 this.doneLoading = true;
             });
         }
@@ -257,7 +203,8 @@ public class Arena implements IArena {
         KitService.get().removeArenasFromKits(this);
         ArenaService.get().arenas.remove(this);
 
-        if (save) ArenaService.get().save();
+        if (save)
+            ArenaService.get().save();
     }
 
     @Override
@@ -266,5 +213,10 @@ public class Arena implements IArena {
             return arena.getName().equals(name);
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
     }
 }

@@ -9,7 +9,7 @@ import dev.lrxh.neptune.configs.impl.SettingsLocale;
 import dev.lrxh.neptune.feature.hotbar.HotbarService;
 import dev.lrxh.neptune.feature.leaderboard.LeaderboardService;
 import dev.lrxh.neptune.feature.leaderboard.impl.LeaderboardPlayerEntry;
-import dev.lrxh.neptune.game.arena.VirtualArena;
+import dev.lrxh.neptune.game.arena.DuplicatedArena;
 import dev.lrxh.neptune.game.kit.Kit;
 import dev.lrxh.neptune.game.kit.impl.KitRule;
 import dev.lrxh.neptune.game.match.Match;
@@ -48,8 +48,9 @@ public class SoloFightMatch extends Match implements ISoloFightMatch {
     private final Participant participantA;
     private final Participant participantB;
 
-    public SoloFightMatch(VirtualArena arena, Kit kit, boolean duel, List<Participant> participants, Participant participantA,
-                          Participant participantB, int rounds) {
+    public SoloFightMatch(DuplicatedArena arena, Kit kit, boolean duel, List<Participant> participants,
+            Participant participantA,
+            Participant participantB, int rounds) {
         super(MatchState.STARTING, arena, kit, participants, rounds, duel, false);
         this.participantA = participantA;
         this.participantB = participantB;

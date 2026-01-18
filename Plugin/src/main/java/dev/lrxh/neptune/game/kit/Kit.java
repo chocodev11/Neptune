@@ -6,7 +6,7 @@ import dev.lrxh.api.kit.IKitRule;
 import dev.lrxh.neptune.API;
 import dev.lrxh.neptune.game.arena.Arena;
 import dev.lrxh.neptune.game.arena.ArenaService;
-import dev.lrxh.neptune.game.arena.VirtualArena;
+import dev.lrxh.neptune.game.arena.DuplicatedArena;
 import dev.lrxh.neptune.game.kit.impl.KitRule;
 import dev.lrxh.neptune.game.match.impl.participant.Participant;
 import dev.lrxh.neptune.profile.ProfileService;
@@ -45,8 +45,8 @@ public class Kit implements IKit {
     private double damageMultiplier;
 
     public Kit(String name, String displayName, List<ItemStack> items, HashSet<Arena> arenas, ItemStack icon,
-               HashMap<KitRule, Boolean> rules, int slot, double health, int kitEditorSlot,
-               List<PotionEffect> potionEffects, double damageMultiplier) {
+            HashMap<KitRule, Boolean> rules, int slot, double health, int kitEditorSlot,
+            List<PotionEffect> potionEffects, double damageMultiplier) {
         this.name = name;
         this.displayName = displayName;
         this.items = items;
@@ -190,7 +190,7 @@ public class Kit implements IKit {
                 (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
     }
 
-    public CompletableFuture<VirtualArena> getRandomArena() {
+    public CompletableFuture<DuplicatedArena> getRandomArena() {
         List<Arena> arenas1 = new ArrayList<>();
 
         for (Arena arena : arenas) {

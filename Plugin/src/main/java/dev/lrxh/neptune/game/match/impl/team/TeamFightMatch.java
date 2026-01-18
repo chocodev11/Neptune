@@ -6,7 +6,7 @@ import dev.lrxh.api.match.participant.IParticipant;
 import dev.lrxh.api.match.team.IMatchTeam;
 import dev.lrxh.neptune.API;
 import dev.lrxh.neptune.configs.impl.MessagesLocale;
-import dev.lrxh.neptune.game.arena.VirtualArena;
+import dev.lrxh.neptune.game.arena.DuplicatedArena;
 import dev.lrxh.neptune.game.kit.Kit;
 import dev.lrxh.neptune.game.kit.impl.KitRule;
 import dev.lrxh.neptune.game.match.Match;
@@ -36,8 +36,8 @@ public class TeamFightMatch extends Match implements ITeamFightMatch {
     private final MatchTeam teamA;
     private final MatchTeam teamB;
 
-    public TeamFightMatch(VirtualArena arena, Kit kit, List<Participant> participants,
-                          MatchTeam teamA, MatchTeam teamB) {
+    public TeamFightMatch(DuplicatedArena arena, Kit kit, List<Participant> participants,
+            MatchTeam teamA, MatchTeam teamB) {
         super(MatchState.STARTING, arena, kit, participants, 1, true, false);
         this.teamA = teamA;
         this.teamB = teamB;
@@ -72,18 +72,20 @@ public class TeamFightMatch extends Match implements ITeamFightMatch {
         MatchTeam winnerTeam = teamA.isLoser() ? teamB : teamA;
         MatchTeam loserTeam = getParticipantTeam(loser);
 
-
         winnerTeam.sendTitle(CC.color(MessagesLocale.MATCH_WINNER_TITLE_HEADER.getString()),
-                CC.color(MessagesLocale.MATCH_WINNER_TITLE_FOOTER.getString().replace("<player>", MessagesLocale.MATCH_YOU.getString())), 100);
+                CC.color(MessagesLocale.MATCH_WINNER_TITLE_FOOTER.getString().replace("<player>",
+                        MessagesLocale.MATCH_YOU.getString())),
+                100);
 
         loserTeam.sendTitle(CC.color(MessagesLocale.MATCH_LOSER_TITLE_HEADER.getString()),
-                CC.color(MessagesLocale.MATCH_LOSER_TITLE_FOOTER.getString().replace("<player>", MessagesLocale.MATCH_OPPONENT_TEAM.getString())), 100);
+                CC.color(MessagesLocale.MATCH_LOSER_TITLE_FOOTER.getString().replace("<player>",
+                        MessagesLocale.MATCH_OPPONENT_TEAM.getString())),
+                100);
 
         loser.playKillEffect();
 
         new MatchEndRunnable(this).start(0L, 20L);
     }
-
 
     @Override
     public void sendEndMessage() {
@@ -97,7 +99,6 @@ public class TeamFightMatch extends Match implements ITeamFightMatch {
                 new Replacement("<losers_points>", String.valueOf(loserTeam.getPoints())),
                 new Replacement("<winners>", winnerTeam.getTeamNames())));
     }
-
 
     @Override
     public void breakBed(Participant participant, Participant breaker) {
@@ -115,7 +116,8 @@ public class TeamFightMatch extends Match implements ITeamFightMatch {
 
     @Override
     public void onDeath(Participant participant) {
-        if (isEnded()) return;
+        if (isEnded())
+            return;
         hideParticipant(participant);
 
         participant.setDead(true);
@@ -160,7 +162,8 @@ public class TeamFightMatch extends Match implements ITeamFightMatch {
 
     @Override
     public void onLeave(Participant participant, boolean quit) {
-        if (isEnded()) return;
+        if (isEnded())
+            return;
 
         participant.setDeathCause(DeathCause.DISCONNECT);
         sendDeathMessage(participant);
@@ -183,6 +186,7 @@ public class TeamFightMatch extends Match implements ITeamFightMatch {
         setState(MatchState.IN_ROUND);
         showPlayerForSpectators();
         playSound(Sound.ENTITY_FIREWORK_ROCKET_BLAST);
-        sendTitle(CC.color(MessagesLocale.MATCH_START_TITLE_FOOTER.getString()), CC.color(MessagesLocale.MATCH_START_TITLE_FOOTER.getString()), 10);
+        sendTitle(CC.color(MessagesLocale.MATCH_START_TITLE_FOOTER.getString()),
+                CC.color(MessagesLocale.MATCH_START_TITLE_FOOTER.getString()), 10);
     }
 }
