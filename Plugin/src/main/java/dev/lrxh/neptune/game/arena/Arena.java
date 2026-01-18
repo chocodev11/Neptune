@@ -57,7 +57,9 @@ public class Arena implements IArena {
         if (min != null && max != null) {
             this.doneLoading = false;
             FAWEArenaManager.get().copyRegion(min, max).thenAccept(clip -> {
-                this.clipboard = clip;
+                // Save to disk immediately and free RAM
+                FAWEArenaManager.get().saveSchematic(clip, this.name);
+                this.clipboard = null;
                 this.doneLoading = true;
             });
         }
@@ -68,9 +70,16 @@ public class Arena implements IArena {
             List<Material> whitelistedBlocks, int deathY, Clipboard clipboard, Arena owner) {
 
         this(name, displayName, redSpawn, blueSpawn, min, max, buildLimit, enabled, whitelistedBlocks, deathY);
-        this.clipboard = clipboard;
-        this.owner = owner;
-        this.doneLoading = (clipboard != null);
+        // If provided a clipboard (e.g. from conversion), save it and clear it.
+        if (clipboard != null) {
+            FAWEArenaManager.get().saveSchematic(clipboard, name);
+            this.clipboard = null;
+            this.doneLoading = true;
+        } else {
+            this.clipboard = null;
+            this.owner = owner;
+            this.doneLoading = true;
+        }
     }
 
     public Arena(String name) {
@@ -108,8 +117,16 @@ public class Arena implements IArena {
         // Calculate offset for this slot
         BlockVector3 offset = FAWEArenaManager.get().getOffsetForSlot(slotIndex);
 
-        // Paste the arena at the offset position
-        FAWEArenaManager.get().pasteClipboard(clipboard, this.min.getWorld(), offset).thenRun(() -> {
+        // 1. Load schematic from disk (Async)
+        FAWEArenaManager.get().loadSchematic(this.name).thenCompose(loadedClipboard -> {
+            if (loadedClipboard == null) {
+                throw new RuntimeException("Schematic not found for arena: " + this.name);
+            }
+
+            // 2. Paste the loaded clipboard
+            return FAWEArenaManager.get().pasteClipboard(loadedClipboard, this.min.getWorld(), offset)
+                    .thenApply(v -> loadedClipboard); // Pass clipboard down the chain if needed, or just proceed
+        }).thenAccept(ignored -> {
             try {
                 // Calculate new locations with offset applied
                 Location newMin = this.min.clone().add(offset.x(), offset.y(), offset.z());
@@ -131,7 +148,7 @@ public class Arena implements IArena {
                         new ArrayList<>(this.whitelistedBlocks),
                         this.deathY,
                         this,
-                        this.clipboard,
+                        null, // Duplicates don't need to hold the clipboard either
                         slotIndex,
                         offset);
 
