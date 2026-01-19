@@ -186,6 +186,7 @@ public class Arena implements IArena {
             this.doneLoading = false;
             FAWEArenaManager.get().copyRegion(min, max).thenAccept(clip -> {
                 this.clipboard = clip;
+                FAWEArenaManager.get().saveSchematic(clip, this.name);
                 this.doneLoading = true;
             });
         }
@@ -197,6 +198,7 @@ public class Arena implements IArena {
             this.doneLoading = false;
             FAWEArenaManager.get().copyRegion(min, max).thenAccept(clip -> {
                 this.clipboard = clip;
+                FAWEArenaManager.get().saveSchematic(clip, this.name);
                 this.doneLoading = true;
             });
         }

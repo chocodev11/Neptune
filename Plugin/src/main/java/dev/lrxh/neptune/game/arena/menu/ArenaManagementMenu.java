@@ -65,6 +65,7 @@ public class ArenaManagementMenu extends Menu {
                     arena.setDoneLoading(false);
                     FAWEArenaManager.get().copyRegion(arena.getMin(), arena.getMax()).thenAccept(clipboard -> {
                         arena.setClipboard(clipboard);
+                        FAWEArenaManager.get().saveSchematic(clipboard, arena.getName());
                         arena.setDoneLoading(true);
                     });
                 }

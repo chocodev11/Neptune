@@ -152,13 +152,16 @@ public class FAWEArenaManager {
         int maxX = (pasteAt.getBlockX() + clipboard.getRegion().getWidth()) >> 4;
         int maxZ = (pasteAt.getBlockZ() + clipboard.getRegion().getLength()) >> 4;
 
-        CompletableFuture<Void> chunkLoadFuture = CompletableFuture.runAsync(() -> {
-            for (int x = minX; x <= maxX; x++) {
-                for (int z = minZ; z <= maxZ; z++) {
-                    bukkitWorld.getChunkAtAsync(x, z).join();
-                }
+        // Collect all chunk load futures without blocking
+        java.util.List<CompletableFuture<org.bukkit.Chunk>> chunkFutures = new java.util.ArrayList<>();
+        for (int x = minX; x <= maxX; x++) {
+            for (int z = minZ; z <= maxZ; z++) {
+                chunkFutures.add(bukkitWorld.getChunkAtAsync(x, z));
             }
-        }, org.bukkit.Bukkit.getScheduler().getMainThreadExecutor(dev.lrxh.neptune.Neptune.get()));
+        }
+        // Wait for all chunks to load asynchronously (non-blocking)
+        CompletableFuture<Void> chunkLoadFuture = CompletableFuture.allOf(
+                chunkFutures.toArray(new CompletableFuture[0]));
 
         // 2. Run paste after chunks are ready, strictly sequentially using faweExecutor
         return chunkLoadFuture.thenRunAsync(() -> {
