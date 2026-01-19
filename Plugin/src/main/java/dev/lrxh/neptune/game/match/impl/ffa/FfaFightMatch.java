@@ -69,6 +69,7 @@ public class FfaFightMatch extends Match implements IFffaFightMatch {
             return;
 
         hideParticipant(participant);
+        incrementDeaths(participant);
         participant.setDead(true);
         participant.setLoser(true);
 

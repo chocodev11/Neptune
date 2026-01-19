@@ -119,6 +119,7 @@ public class TeamFightMatch extends Match implements ITeamFightMatch {
         if (isEnded())
             return;
         hideParticipant(participant);
+        incrementDeaths(participant);
 
         participant.setDead(true);
 

@@ -27,6 +27,8 @@ public class PlaceholderManager {
                 new KitDivisionPlaceholder(),
                 new KitWinsPlaceholder(),
                 new KitLossesPlaceholder(),
+                new KitKillsPlaceholder(),
+                new KitDeathsPlaceholder(),
                 new KitCurrentStreakPlaceholder(),
                 new KitBestStreakPlaceholder(),
                 new LeaderboardPlaceholder(),

@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 @Getter
 @AllArgsConstructor
 public enum LeaderboardType {
-    KILLS("Kills", "KILLS", "WINS") {
+    KILLS("Kills", "KILLS", "KILLS") {
         @Override
         public int get(KitData kitData) {
             return kitData.getKills();
@@ -27,7 +27,7 @@ public enum LeaderboardType {
             return kitData.getElo();
         }
     },
-    DEATHS("Deaths", "DEATHS", "LOSSES") {
+    DEATHS("Deaths", "DEATHS", "DEATHS") {
         @Override
         public int get(KitData kitData) {
             return kitData.getDeaths();

@@ -221,6 +221,7 @@ public class SoloFightMatch extends Match implements ISoloFightMatch {
         if (isEnded())
             return;
         hideParticipant(participant);
+        incrementDeaths(participant);
 
         participant.setDead(true);
 
