@@ -52,7 +52,7 @@ public class Party {
     }
 
     public boolean isLeader(UUID playerUUID) {
-        return leader == playerUUID;
+        return leader.equals(playerUUID);
     }
 
     public void invite(UUID playerUUID) {
@@ -87,7 +87,7 @@ public class Party {
         Profile profile = API.getProfile(playerUUID);
         profile.getGameData().setParty(this);
         profile.setState(ProfileState.IN_PARTY);
-        if (playerUUID != leader) {
+        if (!playerUUID.equals(leader)) {
             broadcast(MessagesLocale.PARTY_JOINED, new Replacement("<player>", invitedPlayer.getName()));
         }
         API.getProfile(playerUUID).getGameData().removeRequest(leader);
@@ -99,7 +99,7 @@ public class Party {
     }
 
     public void remove(UUID playerUUID) {
-        if (leader == playerUUID) {
+        if (leader.equals(playerUUID)) {
             disband();
             return;
         }

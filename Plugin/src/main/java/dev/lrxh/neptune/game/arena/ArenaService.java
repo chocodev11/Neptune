@@ -23,7 +23,8 @@ public class ArenaService extends IService implements IArenaService {
     public final LinkedHashSet<Arena> arenas = new LinkedHashSet<>();
 
     public static ArenaService get() {
-        if (instance == null) instance = new ArenaService();
+        if (instance == null)
+            instance = new ArenaService();
 
         return instance;
     }
@@ -38,7 +39,9 @@ public class ArenaService extends IService implements IArenaService {
         if (config.contains("arenas")) {
             for (String arenaName : getKeys("arenas")) {
                 Arena arena = loadArena(arenaName);
-                arenas.add(arena);
+                if (arena != null) {
+                    arenas.add(arena);
+                }
             }
         }
     }
@@ -47,14 +50,14 @@ public class ArenaService extends IService implements IArenaService {
         FileConfiguration config = ConfigService.get().getArenasConfig().getConfiguration();
         String path = "arenas." + arenaName + ".";
 
-        if (!config.contains(path + "displayName")) return null;
+        if (!config.contains(path + "displayName"))
+            return null;
 
         String displayName = config.getString(path + "displayName");
         Location redSpawn = LocationUtil.deserialize(config.getString(path + "redSpawn"));
         Location blueSpawn = LocationUtil.deserialize(config.getString(path + "blueSpawn"));
         boolean enabled = config.getBoolean(path + "enabled");
         int deathY = config.getInt(path + "deathY", -68321);
-
 
         Location edge1 = LocationUtil.deserialize(config.getString(path + "min"));
         Location edge2 = LocationUtil.deserialize(config.getString(path + "max"));
@@ -63,12 +66,15 @@ public class ArenaService extends IService implements IArenaService {
         List<Material> whitelistedBlocks = new ArrayList<>();
 
         for (String name : config.getStringList(path + "whitelistedBlocks")) {
-            whitelistedBlocks.add(Material.getMaterial(name));
+            Material mat = Material.getMaterial(name);
+            if (mat != null) {
+                whitelistedBlocks.add(mat);
+            }
         }
 
-        return new Arena(arenaName, displayName, redSpawn, blueSpawn, edge1, edge2, limit, enabled, whitelistedBlocks, deathY);
+        return new Arena(arenaName, displayName, redSpawn, blueSpawn, edge1, edge2, limit, enabled, whitelistedBlocks,
+                deathY);
     }
-
 
     @Override
     public void save() {
@@ -85,8 +91,7 @@ public class ArenaService extends IService implements IArenaService {
                     new Value("enabled", arena.isEnabled()),
                     new Value("deathY", arena.getDeathY()),
                     new Value("limit", arena.getBuildLimit()),
-                    new Value("whitelistedBlocks", arena.getWhitelistedBlocksAsString())
-            ));
+                    new Value("whitelistedBlocks", arena.getWhitelistedBlocksAsString())));
 
             if (arena.getMin() != null) {
                 values.add(new Value("min", LocationUtil.serialize(arena.getMin())));
@@ -110,7 +115,9 @@ public class ArenaService extends IService implements IArenaService {
     }
 
     public Arena copyFrom(IArena arena) {
-        return new Arena(arena.getName(), arena.getDisplayName(), arena.getRedSpawn(), arena.getBlueSpawn(), arena.getMin(), arena.getMax(), arena.getBuildLimit(), arena.isEnabled(), arena.getWhitelistedBlocks(), arena.getDeathY());
+        return new Arena(arena.getName(), arena.getDisplayName(), arena.getRedSpawn(), arena.getBlueSpawn(),
+                arena.getMin(), arena.getMax(), arena.getBuildLimit(), arena.isEnabled(), arena.getWhitelistedBlocks(),
+                arena.getDeathY());
     }
 
     @Override

@@ -9,6 +9,7 @@ import dev.lrxh.neptune.game.match.impl.ffa.FfaFightMatch;
 import dev.lrxh.neptune.game.match.impl.participant.Participant;
 import dev.lrxh.neptune.profile.data.ProfileState;
 import dev.lrxh.neptune.profile.data.SettingData;
+import dev.lrxh.neptune.profile.impl.Profile;
 import dev.lrxh.neptune.providers.clickable.Replacement;
 import dev.lrxh.neptune.utils.CC;
 import dev.lrxh.neptune.utils.Time;
@@ -75,19 +76,28 @@ public class MatchStartRunnable extends NeptuneRunnable {
 
     private void checkFollowings() {
         for (Participant participant : match.getParticipantsList()) {
-            if (participant.isDisconnected()) continue;
+            if (participant.isDisconnected())
+                continue;
             SettingData settingData = API.getProfile(participant.getPlayerUUID()).getSettingData();
-            if (settingData == null) continue;
-            if (settingData.getFollowings().isEmpty()) continue;
+            if (settingData == null)
+                continue;
+            if (settingData.getFollowings().isEmpty())
+                continue;
 
             for (UUID uuid : settingData.getFollowings()) {
                 Player follower = Bukkit.getPlayer(uuid);
-                if (follower == null) continue;
+                if (follower == null)
+                    continue;
 
-                if (API.getProfile(follower).getState().equals(ProfileState.IN_GAME)) continue;
+                Profile followerProfile = API.getProfile(follower);
+                if (followerProfile == null)
+                    continue;
+                if (followerProfile.getState().equals(ProfileState.IN_GAME))
+                    continue;
 
                 Player particpiantPlayer = participant.getPlayer();
-                if (particpiantPlayer == null) continue;
+                if (particpiantPlayer == null)
+                    continue;
 
                 match.addSpectator(follower, particpiantPlayer, false, true);
             }

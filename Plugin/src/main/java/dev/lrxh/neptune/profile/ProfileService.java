@@ -7,13 +7,13 @@ import dev.lrxh.neptune.feature.queue.QueueService;
 import dev.lrxh.neptune.profile.impl.Profile;
 import org.bukkit.entity.Player;
 
-import java.util.IdentityHashMap;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class ProfileService implements IProfileService {
     private static ProfileService instance;
-    public final IdentityHashMap<UUID, Profile> profiles = new IdentityHashMap<>();
+    public final HashMap<UUID, Profile> profiles = new HashMap<>();
     private final Neptune plugin;
 
     public ProfileService() {
@@ -39,6 +39,8 @@ public class ProfileService implements IProfileService {
     public void removeProfile(UUID playerUUID) {
         QueueService.get().remove(playerUUID);
         Profile profile = profiles.get(playerUUID);
+        if (profile == null)
+            return;
         profile.disband();
 
         Profile.save(profile);

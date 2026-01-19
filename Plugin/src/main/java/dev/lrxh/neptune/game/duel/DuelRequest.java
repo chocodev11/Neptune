@@ -48,6 +48,19 @@ public class DuelRequest extends Request {
         if (reciverPlayer == null || sender == null)
             return;
 
+        if (arena == null) {
+            sender.sendMessage(CC.error("No arenas were found!"));
+            reciverPlayer.sendMessage(CC.error("No arenas were found!"));
+            return;
+        }
+
+        if (!arena.isSetup()) {
+            sender.sendMessage(CC.error("Arena wasn't setup up properly! Please contact an admin if you see this."));
+            reciverPlayer
+                    .sendMessage(CC.error("Arena wasn't setup up properly! Please contact an admin if you see this."));
+            return;
+        }
+
         Participant participant1 = new Participant(sender);
 
         Participant participant2 = new Participant(reciverPlayer);

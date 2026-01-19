@@ -164,7 +164,7 @@ public abstract class Match implements IMatch {
     }
 
     public void forEachPlayer(Consumer<Player> action) {
-        for (Participant participant : participants) {
+        for (Participant participant : new ArrayList<>(participants)) {
             Player player = participant.getPlayer();
             if (player != null) {
                 action.accept(player);
@@ -173,7 +173,7 @@ public abstract class Match implements IMatch {
     }
 
     public void forEachSpectator(Consumer<Player> action) {
-        for (UUID spectatorUUID : spectators) {
+        for (UUID spectatorUUID : new ArrayList<>(spectators)) {
             Player player = Bukkit.getPlayer(spectatorUUID);
             if (player != null) {
                 action.accept(player);
@@ -356,17 +356,23 @@ public abstract class Match implements IMatch {
     }
 
     public void hideParticipant(Participant participant) {
+        Player participantPlayer = participant.getPlayer();
+        if (participantPlayer == null)
+            return;
         forEachParticipant(p -> {
             if (!p.equals(participant)) {
-                p.getPlayer().hidePlayer(Neptune.get(), participant.getPlayer());
+                p.getPlayer().hidePlayer(Neptune.get(), participantPlayer);
             }
         });
     }
 
     public void showParticipant(Participant participant) {
+        Player participantPlayer = participant.getPlayer();
+        if (participantPlayer == null)
+            return;
         forEachParticipant(p -> {
             if (!p.equals(participant)) {
-                p.getPlayer().showPlayer(Neptune.get(), participant.getPlayer());
+                p.getPlayer().showPlayer(Neptune.get(), participantPlayer);
             }
         });
     }

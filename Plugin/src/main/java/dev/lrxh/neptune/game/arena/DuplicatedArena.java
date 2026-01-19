@@ -72,7 +72,7 @@ public class DuplicatedArena implements IArena {
 
     @Override
     public void restore() {
-        if (clipboard != null && min != null) {
+        if (clipboard != null && min != null && min.getWorld() != null) {
             FAWEArenaManager.get().restoreArena(clipboard, min.getWorld(), offset);
         }
     }

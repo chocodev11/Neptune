@@ -258,4 +258,20 @@ public class FAWEArenaManager {
             }
         }, faweExecutor);
     }
+
+    /**
+     * Shutdown the FAWE executor service.
+     * Should be called on plugin disable to prevent thread leaks.
+     */
+    public void shutdown() {
+        faweExecutor.shutdown();
+        try {
+            if (!faweExecutor.awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS)) {
+                faweExecutor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            faweExecutor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
 }

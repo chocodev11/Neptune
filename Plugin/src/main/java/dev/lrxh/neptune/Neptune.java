@@ -217,6 +217,8 @@ public final class Neptune extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // Shutdown FAWE executor first to prevent new operations
+        FAWEArenaManager.get().shutdown();
         stopService(KitService.get(), KitService::save);
         stopService(ArenaService.get(), ArenaService::save);
         stopService(MatchService.get(), MatchService::stopAllGames);
