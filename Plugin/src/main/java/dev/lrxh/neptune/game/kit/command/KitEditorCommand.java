@@ -46,6 +46,7 @@ public class KitEditorCommand {
 
         // Reset kit to default items
         profile.getGameData().get(kit).setKitLoadout(kit.getItems());
+        Profile.save(profile);
         MessagesLocale.KIT_EDITOR_RESET.send(player.getUniqueId(), new Replacement("<kit>", kit.getDisplayName()));
     }
 }

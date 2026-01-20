@@ -270,4 +270,9 @@ public class Kit implements IKit {
 
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

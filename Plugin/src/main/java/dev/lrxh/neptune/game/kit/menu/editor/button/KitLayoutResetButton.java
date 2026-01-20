@@ -1,11 +1,13 @@
 package dev.lrxh.neptune.game.kit.menu.editor.button;
 
 import dev.lrxh.neptune.API;
+import dev.lrxh.neptune.configs.impl.MenusLocale;
 import dev.lrxh.neptune.configs.impl.MessagesLocale;
 import dev.lrxh.neptune.game.kit.Kit;
 import dev.lrxh.neptune.game.kit.menu.editor.KitLayoutEditorMenu;
 import dev.lrxh.neptune.profile.impl.Profile;
 import dev.lrxh.neptune.providers.clickable.Replacement;
+import dev.lrxh.neptune.utils.CC;
 import dev.lrxh.neptune.utils.ItemBuilder;
 import dev.lrxh.neptune.utils.menu.Button;
 import org.bukkit.Material;
@@ -32,6 +34,7 @@ public class KitLayoutResetButton extends Button {
 
         // Reset to default kit items
         profile.getGameData().get(kit).setKitLoadout(kit.getItems());
+        Profile.save(profile);
 
         MessagesLocale.KIT_EDITOR_RESET.send(player.getUniqueId(), new Replacement("<kit>", kit.getDisplayName()));
 
@@ -41,9 +44,13 @@ public class KitLayoutResetButton extends Button {
 
     @Override
     public ItemStack getItemStack(Player player) {
-        return new ItemBuilder(Material.BARRIER)
-                .name("&e&lRESET TO DEFAULT")
-                .lore("&7Click to reset to default kit layout")
+        Material material = Material.getMaterial(MenusLocale.KIT_EDITOR_LAYOUT_RESET_MATERIAL.getString());
+        if (material == null)
+            material = Material.BARRIER;
+
+        return new ItemBuilder(material)
+                .name(MenusLocale.KIT_EDITOR_LAYOUT_RESET_NAME.getString())
+                .lore(MenusLocale.KIT_EDITOR_LAYOUT_RESET_LORE.getStringList())
                 .build();
     }
 }

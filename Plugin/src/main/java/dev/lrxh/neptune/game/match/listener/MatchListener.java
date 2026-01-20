@@ -503,6 +503,12 @@ public class MatchListener implements Listener {
             if (profile == null)
                 return;
 
+            // Prevent spectators from picking up items
+            if (profile.getState() == ProfileState.IN_SPECTATOR) {
+                event.setCancelled(true);
+                return;
+            }
+
             if (!isPlayerInMatch(profile)) {
                 event.setCancelled(true);
             }

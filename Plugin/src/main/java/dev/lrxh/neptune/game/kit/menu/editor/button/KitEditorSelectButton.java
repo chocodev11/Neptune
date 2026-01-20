@@ -1,8 +1,11 @@
 package dev.lrxh.neptune.game.kit.menu.editor.button;
 
+import dev.lrxh.neptune.API;
 import dev.lrxh.neptune.configs.impl.MenusLocale;
 import dev.lrxh.neptune.game.kit.Kit;
 import dev.lrxh.neptune.game.kit.menu.editor.KitLayoutEditorMenu;
+import dev.lrxh.neptune.profile.data.ProfileState;
+import dev.lrxh.neptune.profile.impl.Profile;
 import dev.lrxh.neptune.providers.clickable.Replacement;
 import dev.lrxh.neptune.utils.ItemBuilder;
 import dev.lrxh.neptune.utils.ItemUtils;
@@ -21,6 +24,14 @@ public class KitEditorSelectButton extends Button {
 
     @Override
     public void onClick(ClickType type, Player player) {
+        Profile profile = API.getProfile(player);
+        if (profile == null)
+            return;
+
+        // Set kit editor state
+        profile.setState(ProfileState.IN_KIT_EDITOR);
+        profile.getGameData().setKitEditor(kit);
+
         new KitLayoutEditorMenu(kit).open(player);
     }
 

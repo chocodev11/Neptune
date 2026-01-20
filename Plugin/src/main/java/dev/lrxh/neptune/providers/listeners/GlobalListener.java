@@ -26,14 +26,17 @@ import java.util.Objects;
 public class GlobalListener implements Listener {
 
     private boolean isPlayerNotInMatch(Profile profile) {
-        if (profile == null) return true;
+        if (profile == null)
+            return true;
         ProfileState state = profile.getState();
-        return !state.equals(ProfileState.IN_GAME) && !state.equals(ProfileState.IN_SPECTATOR) || profile.getMatch() == null;
+        return !state.equals(ProfileState.IN_GAME) && !state.equals(ProfileState.IN_SPECTATOR)
+                || profile.getMatch() == null;
     }
 
     @EventHandler
     public void onCreatureSpawnEvent(CreatureSpawnEvent event) {
-        if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.SPAWNER_EGG) || event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.BUCKET)) {
+        if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.SPAWNER_EGG)
+                || event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.BUCKET)) {
             return;
         }
         event.setCancelled(true);
@@ -42,8 +45,10 @@ public class GlobalListener implements Listener {
     @EventHandler
     public void onCraftItem(CraftItemEvent event) {
         if (event.getInventory().getType() == InventoryType.CRAFTING) {
-            if (!(event.getWhoClicked() instanceof Player player)) return;
-            if (player.getGameMode().equals(GameMode.CREATIVE)) return;
+            if (!(event.getWhoClicked() instanceof Player player))
+                return;
+            if (player.getGameMode().equals(GameMode.CREATIVE))
+                return;
             Profile profile = API.getProfile(player);
             if (isPlayerNotInMatch(profile) && profile.getState() != ProfileState.IN_CUSTOM) {
                 event.setCancelled(true);
@@ -51,13 +56,13 @@ public class GlobalListener implements Listener {
         }
     }
 
-
     @EventHandler
     public void onShiftRightClick(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
 
         if (event.getRightClicked() instanceof Player clicked) {
-            if (!player.isSneaking()) return;
+            if (!player.isSneaking())
+                return;
 
             player.chat("/duel " + clicked.getName());
         }
@@ -91,15 +96,18 @@ public class GlobalListener implements Listener {
     @EventHandler
     public void onSoilChange(PlayerInteractEvent event) {
         Profile profile = API.getProfile(event.getPlayer());
-        if (profile != null && profile.getState().equals(ProfileState.IN_CUSTOM)) return;
-        if (event.getAction() == Action.PHYSICAL && Objects.requireNonNull(event.getClickedBlock()).getType() == Material.FARMLAND)
+        if (profile != null && profile.getState().equals(ProfileState.IN_CUSTOM))
+            return;
+        if (event.getAction() == Action.PHYSICAL
+                && Objects.requireNonNull(event.getClickedBlock()).getType() == Material.FARMLAND)
             event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        if (player.getGameMode().equals(GameMode.CREATIVE)) return;
+        if (player.getGameMode().equals(GameMode.CREATIVE))
+            return;
         Profile profile = API.getProfile(player);
         if (isPlayerNotInMatch(profile) && profile.getState() != ProfileState.IN_CUSTOM) {
             event.setCancelled(true);
@@ -109,11 +117,15 @@ public class GlobalListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        if (player.getGameMode() == GameMode.CREATIVE) return;
+        if (player.getGameMode() == GameMode.CREATIVE)
+            return;
         Profile profile = API.getProfile(player);
-        if (profile == null) return;
-        if (profile.getState().equals(ProfileState.IN_CUSTOM)) return;
-        if (profile.getState().equals(ProfileState.IN_SPECTATOR)) event.setCancelled(true);
+        if (profile == null)
+            return;
+        if (profile.getState().equals(ProfileState.IN_CUSTOM))
+            return;
+        if (profile.getState().equals(ProfileState.IN_SPECTATOR))
+            event.setCancelled(true);
         if (isPlayerNotInMatch(profile)) {
             event.setCancelled(true);
             ProfileState state = profile.getState();
@@ -130,9 +142,11 @@ public class GlobalListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onBucketEmpty(PlayerBucketEmptyEvent event) {
         Player player = event.getPlayer();
-        if (player.getGameMode().equals(GameMode.CREATIVE)) return;
+        if (player.getGameMode().equals(GameMode.CREATIVE))
+            return;
         Profile profile = API.getProfile(player);
-        if (profile != null && profile.getState().equals(ProfileState.IN_CUSTOM)) return;
+        if (profile != null && profile.getState().equals(ProfileState.IN_CUSTOM))
+            return;
         if (isPlayerNotInMatch(profile)) {
             event.setCancelled(true);
             player.sendMessage(CC.color("&cYou can't place liquids here!"));
@@ -146,9 +160,11 @@ public class GlobalListener implements Listener {
             event.getItemDrop().remove();
             return;
         }
-        if (player.getGameMode().equals(GameMode.CREATIVE)) return;
+        if (player.getGameMode().equals(GameMode.CREATIVE))
+            return;
         Profile profile = API.getProfile(player);
-        if (profile != null && profile.getState().equals(ProfileState.IN_CUSTOM)) return;
+        if (profile != null && profile.getState().equals(ProfileState.IN_CUSTOM))
+            return;
         if (isPlayerNotInMatch(profile)) {
             event.setCancelled(true);
         }
@@ -157,9 +173,16 @@ public class GlobalListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onItemPickup(EntityPickupItemEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (player.getGameMode().equals(GameMode.CREATIVE)) return;
+            if (player.getGameMode().equals(GameMode.CREATIVE))
+                return;
             Profile profile = API.getProfile(player);
-            if (profile != null && profile.getState().equals(ProfileState.IN_CUSTOM)) return;
+            if (profile != null && profile.getState().equals(ProfileState.IN_CUSTOM))
+                return;
+            // Prevent spectators from picking up items
+            if (profile != null && profile.getState().equals(ProfileState.IN_SPECTATOR)) {
+                event.setCancelled(true);
+                return;
+            }
             if (isPlayerNotInMatch(profile)) {
                 event.setCancelled(true);
             }
@@ -171,8 +194,10 @@ public class GlobalListener implements Listener {
         if (event.getDamager() instanceof Player attacker && event.getEntity() instanceof Player victim) {
             Profile attackerProfile = API.getProfile(attacker);
             Profile victimProfile = API.getProfile(victim);
-            if (attackerProfile != null && attackerProfile.getState().equals(ProfileState.IN_CUSTOM)) return;
-            if (victimProfile != null && victimProfile.getState().equals(ProfileState.IN_CUSTOM)) return;
+            if (attackerProfile != null && attackerProfile.getState().equals(ProfileState.IN_CUSTOM))
+                return;
+            if (victimProfile != null && victimProfile.getState().equals(ProfileState.IN_CUSTOM))
+                return;
             if (isPlayerNotInMatch(attackerProfile) || isPlayerNotInMatch(victimProfile)) {
                 event.setCancelled(true);
             }
@@ -183,8 +208,10 @@ public class GlobalListener implements Listener {
     public void onEntityDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player player) {
             Profile profile = API.getProfile(player);
-            if (profile == null) return;
-            if (profile.getState().equals(ProfileState.IN_CUSTOM)) return;
+            if (profile == null)
+                return;
+            if (profile.getState().equals(ProfileState.IN_CUSTOM))
+                return;
             if (isPlayerNotInMatch(profile)) {
                 event.setCancelled(true);
             }
@@ -193,7 +220,8 @@ public class GlobalListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
+        if (!(event.getEntity() instanceof Player player))
+            return;
         Profile profile = API.getProfile(player);
 
         if (profile == null) {
@@ -204,16 +232,18 @@ public class GlobalListener implements Listener {
             return;
         }
 
-        if (isPlayerNotInMatch(profile)) event.setCancelled(true);
+        if (isPlayerNotInMatch(profile))
+            event.setCancelled(true);
     }
-
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onProjectileHit(ProjectileHitEvent event) {
         if (event.getEntity().getShooter() instanceof Player player) {
-            if (player.getGameMode().equals(GameMode.CREATIVE)) return;
+            if (player.getGameMode().equals(GameMode.CREATIVE))
+                return;
             Profile profile = API.getProfile(player);
-            if (profile != null && profile.getState().equals(ProfileState.IN_CUSTOM)) return;
+            if (profile != null && profile.getState().equals(ProfileState.IN_CUSTOM))
+                return;
             if (isPlayerNotInMatch(profile)) {
                 event.setCancelled(true);
             }
@@ -222,12 +252,15 @@ public class GlobalListener implements Listener {
 
     @EventHandler
     public void onPotionEffect(EntityPotionEffectEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
-        if (API.getProfile(player) != null && API.getProfile(player).getState().equals(ProfileState.IN_CUSTOM)) return;
+        if (!(event.getEntity() instanceof Player player))
+            return;
+        if (API.getProfile(player) != null && API.getProfile(player).getState().equals(ProfileState.IN_CUSTOM))
+            return;
         if (event.getAction() == EntityPotionEffectEvent.Action.ADDED) {
             PotionEffect newEffect = event.getNewEffect();
             if (newEffect != null) {
-                player.setMetadata("max_duration_" + newEffect.getType().getName(), new FixedMetadataValue(Neptune.get(), newEffect.getDuration()));
+                player.setMetadata("max_duration_" + newEffect.getType().getName(),
+                        new FixedMetadataValue(Neptune.get(), newEffect.getDuration()));
             }
         }
         if (event.getAction() == EntityPotionEffectEvent.Action.REMOVED ||

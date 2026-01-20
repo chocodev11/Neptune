@@ -123,47 +123,59 @@ public class Arena implements IArena {
                 throw new RuntimeException("Schematic not found for arena: " + this.name);
             }
 
-            // 2. Paste the loaded clipboard
+            // 2. Paste the loaded clipboard, then ensure spawn chunks are ready before finishing.
             return FAWEArenaManager.get().pasteClipboard(loadedClipboard, this.min.getWorld(), offset)
-                    .thenApply(v -> loadedClipboard); // Pass clipboard down the chain if needed, or just proceed
-        }).thenAccept(ignored -> {
-            try {
-                // Calculate new locations with offset applied
-                Location newMin = this.min.clone().add(offset.x(), offset.y(), offset.z());
-                Location newMax = this.max.clone().add(offset.x(), offset.y(), offset.z());
-                Location newRedSpawn = this.redSpawn.clone().add(offset.x(), offset.y(), offset.z());
-                Location newBlueSpawn = this.blueSpawn.clone().add(offset.x(), offset.y(), offset.z());
+                    .thenCompose(v -> {
+                        Location newMin = this.min.clone().add(offset.x(), offset.y(), offset.z());
+                        Location newMax = this.max.clone().add(offset.x(), offset.y(), offset.z());
+                        Location newRedSpawn = this.redSpawn.clone().add(offset.x(), offset.y(), offset.z());
+                        Location newBlueSpawn = this.blueSpawn.clone().add(offset.x(), offset.y(), offset.z());
 
-                String dupName = this.name + "_" + uuid;
+                        return loadSpawnChunks(newRedSpawn, newBlueSpawn).thenApply(ignored -> {
+                            String dupName = this.name + "_" + uuid;
 
-                DuplicatedArena duplicate = new DuplicatedArena(
-                        dupName,
-                        this.displayName,
-                        newRedSpawn,
-                        newBlueSpawn,
-                        newMin,
-                        newMax,
-                        this.buildLimit,
-                        this.enabled,
-                        new ArrayList<>(this.whitelistedBlocks),
-                        this.deathY,
-                        this,
-                        null, // Duplicates don't need to hold the clipboard either
-                        slotIndex,
-                        offset);
-
-                future.complete(duplicate);
-            } catch (Exception ex) {
-                FAWEArenaManager.get().releaseSlot(slotIndex);
-                future.completeExceptionally(ex);
-            }
-        }).exceptionally(ex -> {
+                            return new DuplicatedArena(
+                                    dupName,
+                                    this.displayName,
+                                    newRedSpawn,
+                                    newBlueSpawn,
+                                    newMin,
+                                    newMax,
+                                    this.buildLimit,
+                                    this.enabled,
+                                    new ArrayList<>(this.whitelistedBlocks),
+                                    this.deathY,
+                                    this,
+                                    null, // Duplicates don't need to hold the clipboard either
+                                    slotIndex,
+                                    offset);
+                        });
+                    });
+        }).thenAccept(future::complete).exceptionally(ex -> {
             FAWEArenaManager.get().releaseSlot(slotIndex);
             future.completeExceptionally(ex);
             return null;
         });
 
         return future;
+    }
+
+    private CompletableFuture<Void> loadSpawnChunks(Location... locations) {
+        List<CompletableFuture<org.bukkit.Chunk>> futures = new ArrayList<>();
+        for (Location location : locations) {
+            if (location == null || location.getWorld() == null) {
+                continue;
+            }
+            int chunkX = location.getBlockX() >> 4;
+            int chunkZ = location.getBlockZ() >> 4;
+            futures.add(location.getWorld().getChunkAtAsync(chunkX, chunkZ));
+        }
+
+        if (futures.isEmpty()) {
+            return CompletableFuture.completedFuture(null);
+        }
+
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
     }
 
     public List<String> getWhitelistedBlocksAsString() {

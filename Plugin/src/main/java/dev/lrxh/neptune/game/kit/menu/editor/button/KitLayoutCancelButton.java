@@ -1,5 +1,10 @@
 package dev.lrxh.neptune.game.kit.menu.editor.button;
 
+import dev.lrxh.neptune.API;
+import dev.lrxh.neptune.configs.impl.MenusLocale;
+import dev.lrxh.neptune.profile.data.ProfileState;
+import dev.lrxh.neptune.profile.impl.Profile;
+import dev.lrxh.neptune.utils.CC;
 import dev.lrxh.neptune.utils.ItemBuilder;
 import dev.lrxh.neptune.utils.menu.Button;
 import org.bukkit.Material;
@@ -18,14 +23,24 @@ public class KitLayoutCancelButton extends Button {
 
     @Override
     public void onClick(ClickType type, Player player) {
+        Profile profile = API.getProfile(player);
+        if (profile != null) {
+            // Reset kit editor state
+            profile.setState(ProfileState.IN_LOBBY);
+            profile.getGameData().setKitEditor(null);
+        }
         player.closeInventory();
     }
 
     @Override
     public ItemStack getItemStack(Player player) {
-        return new ItemBuilder(Material.RED_WOOL)
-                .name("&c&lCANCEL")
-                .lore("&7Click to cancel without saving")
+        Material material = Material.getMaterial(MenusLocale.KIT_EDITOR_LAYOUT_CANCEL_MATERIAL.getString());
+        if (material == null)
+            material = Material.RED_WOOL;
+
+        return new ItemBuilder(material)
+                .name(MenusLocale.KIT_EDITOR_LAYOUT_CANCEL_NAME.getString())
+                .lore(MenusLocale.KIT_EDITOR_LAYOUT_CANCEL_LORE.getStringList())
                 .build();
     }
 }

@@ -1,9 +1,11 @@
 package dev.lrxh.neptune.game.kit.menu.editor.button;
 
 import dev.lrxh.neptune.API;
+import dev.lrxh.neptune.configs.impl.MenusLocale;
 import dev.lrxh.neptune.configs.impl.MessagesLocale;
 import dev.lrxh.neptune.game.kit.Kit;
 import dev.lrxh.neptune.game.kit.menu.editor.KitLayoutEditorMenu;
+import dev.lrxh.neptune.profile.data.ProfileState;
 import dev.lrxh.neptune.profile.impl.Profile;
 import dev.lrxh.neptune.providers.clickable.Replacement;
 import dev.lrxh.neptune.utils.ItemBuilder;
@@ -48,6 +50,11 @@ public class KitLayoutSaveButton extends Button {
 
         // Save the layout
         profile.getGameData().get(kit).setKitLoadout(loadout);
+        Profile.save(profile);
+
+        // Reset kit editor state
+        profile.setState(ProfileState.IN_LOBBY);
+        profile.getGameData().setKitEditor(null);
 
         player.closeInventory();
         MessagesLocale.KIT_EDITOR_STOP.send(player.getUniqueId(), new Replacement("<kit>", kit.getDisplayName()));
@@ -55,9 +62,13 @@ public class KitLayoutSaveButton extends Button {
 
     @Override
     public ItemStack getItemStack(Player player) {
-        return new ItemBuilder(Material.LIME_WOOL)
-                .name("&a&lSAVE LAYOUT")
-                .lore("&7Click to save your kit layout")
+        Material material = Material.getMaterial(MenusLocale.KIT_EDITOR_LAYOUT_SAVE_MATERIAL.getString());
+        if (material == null)
+            material = Material.LIME_WOOL;
+
+        return new ItemBuilder(material)
+                .name(MenusLocale.KIT_EDITOR_LAYOUT_SAVE_NAME.getString())
+                .lore(MenusLocale.KIT_EDITOR_LAYOUT_SAVE_LORE.getStringList())
                 .build();
     }
 }

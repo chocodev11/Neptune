@@ -53,6 +53,26 @@ KIT_EDITOR:
     LORE:
       - ""
       - " &aClick to edit kit"
+  LAYOUT:
+    TITLE: "&8Layout Editor - <kit>"
+    SAVE:
+      SLOT: 51
+      NAME: "&a&lSAVE LAYOUT"
+      LORE:
+        - "&7Click to save your kit layout"
+      MATERIAL: "LIME_WOOL"
+    RESET:
+      SLOT: 52
+      NAME: "&e&lRESET TO DEFAULT"
+      LORE:
+        - "&7Click to reset to default kit layout"
+      MATERIAL: "YELLOW_WOOL"
+    CANCEL:
+      SLOT: 53
+      NAME: "&c&lCANCEL"
+      LORE:
+        - "&7Click to cancel without saving"
+      MATERIAL: "RED_WOOL"
 STAT:
   NAME: "&b<kit>"
   SIZE: 36

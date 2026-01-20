@@ -1,6 +1,7 @@
 package dev.lrxh.neptune.game.kit.menu.editor;
 
 import dev.lrxh.neptune.API;
+import dev.lrxh.neptune.configs.impl.MenusLocale;
 import dev.lrxh.neptune.game.kit.Kit;
 import dev.lrxh.neptune.game.kit.menu.editor.button.KitLayoutCancelButton;
 import dev.lrxh.neptune.game.kit.menu.editor.button.KitLayoutItemButton;
@@ -28,9 +29,7 @@ import java.util.List;
  * - Slots 36-39: Armor slots (boots, leggings, chestplate, helmet)
  * - Slot 40: Offhand item
  * - Slots 41-50: Black glass (decorative border)
- * - Slot 51: Save button
- * - Slot 52: Reset button
- * - Slot 53: Cancel button
+ * - Configurable slots for save, reset, cancel buttons
  * 
  * Editable area: Slots 0-40 (items can be dragged within this area)
  */
@@ -43,7 +42,7 @@ public class KitLayoutEditorMenu extends Menu {
     public static final int EDITABLE_END = 40;
 
     public KitLayoutEditorMenu(Kit kit) {
-        super("&8Layout Editor - " + kit.getDisplayName(), 54, Filter.NONE);
+        super(MenusLocale.KIT_EDITOR_LAYOUT_TITLE.getString().replace("<kit>", kit.getDisplayName()), 54, Filter.NONE);
         this.kit = kit;
     }
 
@@ -79,19 +78,23 @@ public class KitLayoutEditorMenu extends Menu {
             // Empty slots remain empty (no button) to allow item placement
         }
 
+        // Get button slots from config
+        int saveSlot = MenusLocale.KIT_EDITOR_LAYOUT_SAVE_SLOT.getInt();
+        int resetSlot = MenusLocale.KIT_EDITOR_LAYOUT_RESET_SLOT.getInt();
+        int cancelSlot = MenusLocale.KIT_EDITOR_LAYOUT_CANCEL_SLOT.getInt();
+
         // Slots 41-50: Black stained glass pane (decorative border)
-        for (int i = 41; i <= 50; i++) {
-            buttons.add(new DisplayButton(i, Material.BLACK_STAINED_GLASS_PANE, " "));
+        // Skip slots used by buttons
+        for (int i = 41; i <= 53; i++) {
+            if (i != saveSlot && i != resetSlot && i != cancelSlot) {
+                buttons.add(new DisplayButton(i, Material.BLACK_STAINED_GLASS_PANE, " "));
+            }
         }
 
-        // Slot 51: Save button
-        buttons.add(new KitLayoutSaveButton(51, kit, this));
-
-        // Slot 52: Reset button
-        buttons.add(new KitLayoutResetButton(52, kit));
-
-        // Slot 53: Cancel button
-        buttons.add(new KitLayoutCancelButton(53));
+        // Add configurable buttons
+        buttons.add(new KitLayoutSaveButton(saveSlot, kit, this));
+        buttons.add(new KitLayoutResetButton(resetSlot, kit));
+        buttons.add(new KitLayoutCancelButton(cancelSlot));
 
         return buttons;
     }
